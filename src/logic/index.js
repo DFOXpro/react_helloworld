@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 import Media from '../view/jsx_components/media.jsx'
+import Asd from '../view/jsx_components/asd.jsx'
 // import {B} from './render_md.js'
 // console.log('hello world');
 // B.zxc();
@@ -15,15 +16,16 @@ function reactTest() {
 			</b>
 		);
 	}
-	const render = (reactElement) => {
+	const render = (reactElement, hook_element = 'react_hook') => {
 		ReactDOM.render(
 			reactElement,
-			document.getElementById('react_hook')
+			document.getElementById(hook_element)
 		);
 	}
 	// const {Media} = await import('../view/jsx_components/media.jsx');
 	// console.log(Media);
-	render(<ReactTagTest />);
+	// render(<ReactTagTest />);
+	render(<Asd />, 'asd');
 	render(<Media/>);
 };
 reactTest();
