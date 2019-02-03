@@ -11,6 +11,7 @@ Cosas extras al curso:
 
 * Empaquetado con ParcelJS
 * Html en Pug/Jade
+* Jsx en Pug/Jade
 * Js en Lightscript
 * Css en Stylus
 
