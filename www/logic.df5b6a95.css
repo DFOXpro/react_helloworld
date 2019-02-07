@@ -1,0 +1,14 @@
+._media {
+  background-color: #fff;
+  color: #00f;
+  width: 8em;
+  height: 6em;
+}
+._album {
+  background-color: #808080;
+  color: #f00;
+}
+._playlist {
+  background-color: #ffc0cb;
+  color: #000;
+}

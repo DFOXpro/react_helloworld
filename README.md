@@ -22,8 +22,8 @@ Cosas extras al curso:
 
 
 `package.json` Muestra las dependencias usadas en el proyecto y los scripts disponibles para correr:
-* `npm run dist` Genera los archivos para producción
-* `npm run dist:hmr` Genera los archivos para producción y se mantiene en modo watch
+* `npm run build` Genera los archivos para producción
+* `npm run build:hmr` Genera los archivos para producción y se mantiene en modo watch
 * `npm run dev` Genera los archivos para desarrollo
 * `npm run dev:hmr` Genera los archivos para desarrollo y se mantiene en modo watch
 
