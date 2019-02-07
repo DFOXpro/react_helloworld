@@ -8,7 +8,7 @@
     "dev": "rm ./www -Rv; parcel build --out-dir www --global _debug_ --no-minify src/view/index.pug",
     "dev:hmr": "rm ./www -Rv; parcel serve --out-dir www --global _debug_ src/view/index.pug",
     "build": "rm ./dist -Rv; parcel build --no-source-maps src/view/index.pug",
-    "build:hrm": "rm ./dist -Rv; parcel serve src/view/index.pug"
+    "build:hmr": "rm ./dist -Rv; parcel serve src/view/index.pug"
   },
   "author": "DFOXpro",
   "license": "MPL-2.0",
@@ -18,6 +18,7 @@
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/preset-react": "^7.0.0",
     "babel-plugin-transform-react-pug": "^7.0.0",
+    "parcel-plugin-static-files-copy": "^2.0.0",
     "pug": "^2.0.3",
     "stylus": "^0.54.5"
   },
