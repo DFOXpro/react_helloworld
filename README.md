@@ -4,7 +4,7 @@ Este fue un experimento para implementar lo aprendido en el curso de Platzi sobr
 
 ## Cosas implementadas del curso
 
-Todo hasta la clase 15
+Todo hasta la clase 18
 
 
 ## Un paso más allá
@@ -12,11 +12,12 @@ Todo hasta la clase 15
 Cosas extras al curso:
 
 * Empaquetado con ParcelJS
-* Html en Pug/Jade
 * Jsx en Pug/Jade
+* Html en Pug/Jade
 * Css en Stylus
 * Varias mejoras para babel(object attributes, dynamic import)
 * git con LFS
+* Modelo (MVC) tipo POJsO (PORO)
 
 ## Qué mirar
 
