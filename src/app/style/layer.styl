@@ -1,0 +1,21 @@
+@require '_variables'
+
+.side_menu
+	display inline-block
+	height 100%
+	width $SIDE_MENU_WIDTH
+	padding 2em
+	background-color $ZORRO_MUSIC_BLACK
+	color $ZORRO_MUSIC_WHITE
+
+.main_content
+	display inline-block
+	height 100%
+	padding 2em
+	align-self start
+	width "calc(100% - %s)" % $SIDE_MENU_WIDTH
+	overflow-y auto
+
+.main_logo
+	width 80%
+	height auto
