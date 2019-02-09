@@ -1,22 +1,31 @@
 {
-	"title": "Albumes editados recientemente",
-	"description": "Albumes que se les arregló los metadatos",
-	"albums": [
+	"playlists": [
 		{
-			"id": 1,
-			"description": "2007 Rebuild of evangelion OST",
-			"title": "Shiro SAGISU Music from \"EVANGELION: 1.0\" YOU ARE (NOT) ALONE",
-			"cover": "cover.jpg",
-			"year": 2007,
-			"tracks": [
+			"title": "Albumes editados recientemente",
+			"description": "Albumes que se les arregló los metadatos",
+			"albums": [
 				{
-					"title": "Cruel Dilemme IV",
-					"author": "Shiro Sagisu",
-					"type": "youtube",
-					"src": "5jROfBD_DAQ",
-					"id": 26
+					"id": 1,
+					"description": "2007 Rebuild of evangelion OST",
+					"title": "Shiro SAGISU Music from \"EVANGELION: 1.0\" YOU ARE (NOT) ALONE",
+					"cover": "cover.jpg",
+					"year": 2007,
+					"tracks": [
+						{
+							"title": "Cruel Dilemme IV",
+							"author": "Shiro Sagisu",
+							"type": "youtube",
+							"src": "5jROfBD_DAQ",
+							"id": 26
+						}
+					]
 				}
 			]
-		}
+		},
+		{
+			"title": "Albumes para trabajar",
+			"description": "Los mejores albumes para concentrarse",
+		},
+		{}
 	]
 }

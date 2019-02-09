@@ -12,7 +12,6 @@ const MediaEl = props => {
 			if props.type === 'youtube'
 				iframe(
 					type="text/html"
-					width="640" height="390"
 					src="http://www.youtube.com/embed/"+props.src+"?enablejsapi=1&origin=http://example.com"
 					frameborder="0"
 				)

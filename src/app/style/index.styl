@@ -1,3 +1,21 @@
+@require '_variables'
+
 body
-	background-color black
-	color green
+	color $ZORRO_MUSIC_BLACK
+	background-color $ZORRO_MUSIC_WHITE
+	font $ZORRO_MUSIC_FONT_SIZE $ZORRO_MUSIC_FONT_FAMILY
+	margin 0
+	display flex
+	height 100%
+	overflow-y hidden
+
+.loading
+	margin-left auto
+	margin-right auto
+	display block
+	align-self center
+	animation rotation 2s linear infinite
+
+@keyframes rotation
+		to
+			transform rotate(360deg)
