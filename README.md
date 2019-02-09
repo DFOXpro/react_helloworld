@@ -1,5 +1,7 @@
 # REACT HELLO WORLD
 
+![screencast of the project](https://github.com/DFOXpro/react_helloworld/blob/master/docs/Peek-08-02-2019%2020-54.apng?raw=true)
+
 Este fue un experimento para implementar lo aprendido en el curso de Platzi sobre React
 
 ## Cosas implementadas del curso
