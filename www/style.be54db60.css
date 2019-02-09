@@ -1,0 +1,36 @@
+body {
+  color: #1e231e;
+  background-color: #dbe3e2;
+  font: 16px sans-serif;
+  margin: 0;
+  display: flex;
+  height: 100%;
+  overflow-y: hidden;
+}
+.loading {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  align-self: center;
+  animation: rotation 2s linear infinite;
+}
+@-moz-keyframes rotation {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes rotation {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@-o-keyframes rotation {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotation {
+  to {
+    transform: rotate(360deg);
+  }
+}
