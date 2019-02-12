@@ -1188,7 +1188,27 @@ _defineProperty(Album, "PROPTYPES", {
   year: _propTypes.default.number.isRequired,
   tracks: _propTypes.default.array
 });
-},{"prop-types":"yu5W","../../assets/images/no_cover.jpg":"HfQv"}],"Yh8S":[function(require,module,exports) {
+},{"prop-types":"yu5W","../../assets/images/no_cover.jpg":"HfQv"}],"JNn3":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.PlayButtonEl = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+var PlayButtonEl = function PlayButtonEl(props) {
+  return _react.default.createElement("button", {
+    onClick: props.$_handlePlayClick,
+    className: "_play_button " + props.className
+  }, ">");
+};
+
+exports.PlayButtonEl = PlayButtonEl;
+},{"react":"SAdv"}],"Yh8S":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1197,6 +1217,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.AlbumEl = void 0;
 
 var _react = _interopRequireDefault(require("react"));
+
+var _play_button_element = require("./play_button_element.jsx");
 
 require("../style/album.styl");
 
@@ -1207,10 +1229,10 @@ var AlbumEl = function AlbumEl(props) {
   return _react.default.createElement("div", {
     "data-status": props.status,
     className: "_album"
-  }, _react.default.createElement("button", {
-    onClick: props.$_handlePlayClick,
+  }, _react.default.createElement(_play_button_element.PlayButtonEl, {
+    $_handlePlayClick: props.$_handlePlayClick,
     className: "_album_play"
-  }, "Play"), _react.default.createElement("div", {
+  }), _react.default.createElement("div", {
     onClick: props.$_handleOpenClick,
     className: "_album_resume"
   }, _react.default.createElement("img", {
@@ -1226,7 +1248,163 @@ var AlbumEl = function AlbumEl(props) {
 };
 
 exports.AlbumEl = AlbumEl;
-},{"react":"SAdv","../style/album.styl":"X7jF"}],"lX0X":[function(require,module,exports) {
+},{"react":"SAdv","./play_button_element.jsx":"JNn3","../style/album.styl":"X7jF"}],"7WCR":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ZU_youtube = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+// f***ing private statics
+function __isApiReady() {
+  return typeof YT !== "undefined";
+}
+
+var _singleton_youtube_player_hook = "";
+var _singleton_youtube_player_obj = null;
+var _singleton_youtube_player_states_handlers = {};
+
+var __YT_STATUS_ENDED = Symbol('YT_STATUS_ENDED');
+
+var __YT_STATUS_PLAYING = Symbol('YT_STATUS_PLAYING');
+
+var __YT_STATUS_PAUSED = Symbol('YT_STATUS_PAUSED');
+
+var __YT_STATUS_BUFFERING = Symbol('YT_STATUS_BUFFERING');
+
+var __YT_STATUS_VIDEO_CUED = Symbol('YT_STATUS_VIDEO_CUED');
+
+var ZU_youtube =
+/*#__PURE__*/
+function () {
+  function ZU_youtube() {
+    _classCallCheck(this, ZU_youtube);
+  }
+
+  _createClass(ZU_youtube, null, [{
+    key: "init",
+    value: function init(youtube_player_hook) {
+      _singleton_youtube_player_hook = youtube_player_hook;
+
+      if (!__isApiReady()) {
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        document.getElementsByTagName('body')[0].insertAdjacentElement('beforeend', tag);
+      }
+    }
+  }, {
+    key: "playVideo",
+    value: function playVideo(videoId) {
+      return new Promise(function (resolve, reject) {
+        function _asyncHandler() {
+          _singleton_youtube_player_obj = new YT.Player(youtube_player_hook, {
+            videoId: videoId,
+            events: {
+              onReady: function onReady(event) {
+                event.target.playVideo();
+              },
+              onStateChange: function onStateChange(event) {
+                // console.log('onStateChange', event);
+                switch (event.data) {
+                  case 0:
+                    // (ended)
+                    console.log('ASD', _singleton_youtube_player_states_handlers);
+                    if (_singleton_youtube_player_states_handlers[__YT_STATUS_ENDED.description]) _singleton_youtube_player_states_handlers[__YT_STATUS_ENDED.description]();
+                    break;
+
+                  case 1:
+                    // (playing)
+                    if (_singleton_youtube_player_states_handlers[__YT_STATUS_PLAYING.description]) _singleton_youtube_player_states_handlers[__YT_STATUS_PLAYING.description]();
+                    break;
+                  // case 2: // (paused) // Not used handle outside
+                  // 	if(_singleton_youtube_player_states_handlers[__YT_STATUS_PAUSED.description])
+                  // 		_singleton_youtube_player_states_handlers[__YT_STATUS_PAUSED.description]();
+                  // 	break;
+
+                  case 3:
+                    // (buffering)
+                    if (_singleton_youtube_player_states_handlers[__YT_STATUS_BUFFERING.description]) _singleton_youtube_player_states_handlers[__YT_STATUS_BUFFERING.description]();
+                    break;
+                  // case 5: // (video cued). // Not used
+                  // 	if(_singleton_youtube_player_states_handlers[__YT_STATUS_VIDEO_CUED.description])
+                  // 		_singleton_youtube_player_states_handlers[__YT_STATUS_VIDEO_CUED.description]();
+                  // 	break;
+
+                  default:
+                }
+              }
+            }
+          });
+          resolve();
+        }
+
+        ;
+
+        if (_singleton_youtube_player_obj) {
+          _singleton_youtube_player_obj.loadVideoById({
+            videoId: videoId,
+            startSeconds: 0
+          });
+
+          resolve();
+        } else if (!__isApiReady()) {
+          window.onYouTubeIframeAPIReady = _asyncHandler;
+        } else _asyncHandler();
+      });
+    }
+  }, {
+    key: "setVideoStatusHandler",
+    value: function setVideoStatusHandler(statusId, callback) {
+      console.log('setVideoStatusHandler', statusId, callback);
+      _singleton_youtube_player_states_handlers[statusId.description] = callback;
+    }
+  }, {
+    key: "pauseVideo",
+    value: function pauseVideo() {
+      console.log('YT.pauseVideo');
+
+      _singleton_youtube_player_obj.pauseVideo();
+    }
+  }, {
+    key: "resumeVideo",
+    value: function resumeVideo() {
+      console.log('YT.resumeVideo');
+
+      _singleton_youtube_player_obj.playVideo();
+    }
+  }, {
+    key: "stopVideo",
+    value: function stopVideo() {
+      console.log('YT.stopVideo', _singleton_youtube_player_obj, _singleton_youtube_player_hook);
+      _singleton_youtube_player_obj && _singleton_youtube_player_obj.stopVideo();
+      _singleton_youtube_player_states_handlers = {};
+    }
+  }]);
+
+  return ZU_youtube;
+}();
+
+exports.ZU_youtube = ZU_youtube;
+
+_defineProperty(ZU_youtube, "STATUS_ENDED", __YT_STATUS_ENDED);
+
+_defineProperty(ZU_youtube, "STATUS_PLAYING", __YT_STATUS_PLAYING);
+
+_defineProperty(ZU_youtube, "STATUS_PAUSED", __YT_STATUS_PAUSED);
+
+_defineProperty(ZU_youtube, "STATUS_BUFFERING", __YT_STATUS_BUFFERING);
+
+_defineProperty(ZU_youtube, "STATUS_VIDEO_CUED", __YT_STATUS_VIDEO_CUED);
+},{}],"lX0X":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1248,7 +1426,7 @@ var Media = function Media() {
 
 exports.Media = Media;
 
-_defineProperty(Media, "ATTRIBUTE_LIST", ['title', 'author', 'type', 'src']);
+_defineProperty(Media, "ATTRIBUTE_LIST", ['title', 'author', 'type', 'src', 'track_number']);
 
 _defineProperty(Media, "DEFAULT_TITLE", 'Album sin título');
 
@@ -1263,200 +1441,11 @@ _defineProperty(Media, "PROPTYPES", {
   title: _propTypes.default.oneOfType([_propTypes.default.string, _propTypes.default.number]),
   author: _propTypes.default.oneOfType([_propTypes.default.string, _propTypes.default.number]),
   type: _propTypes.default.oneOf(['youtube', 'audio', 'video', 'image', 'none']),
-  src: _propTypes.default.string //.isRequired,
-
+  src: _propTypes.default.string,
+  //.isRequired,
+  track_number: _propTypes.default.number
 });
-},{"prop-types":"yu5W"}],"6RLV":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.MediaEl = void 0;
-
-var _react = _interopRequireWildcard(require("react"));
-
-require("../style/media.styl");
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
-
-var MediaEl = function MediaEl(props) {
-  return _react.default.createElement("div", {
-    onClick: props.$_handleClick,
-    className: "_media"
-  }, _react.default.createElement("h4", {
-    className: "_media_title"
-  }, props.title), _react.default.createElement("p", null, "Author:", props.author));
-};
-
-exports.MediaEl = MediaEl;
-},{"react":"SAdv","../style/media.styl":"X7jF"}],"sjfk":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.MediaController = void 0;
-
-var _react = _interopRequireWildcard(require("react"));
-
-var _utils = require("../utils.js");
-
-var _media = require("../models/media.js");
-
-var _media_element = require("../views_components/media_element.jsx");
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
-
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-var MediaController =
-/*#__PURE__*/
-function (_PureComponent) {
-  _inherits(MediaController, _PureComponent);
-
-  function MediaController(props) {
-    var _this;
-
-    _classCallCheck(this, MediaController);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(MediaController).call(this, props));
-
-    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "$_handleClick", function (event) {
-      console.log(event, _this.state.title);
-
-      _this.setState({
-        title: 'Cambió algo'
-      });
-    });
-
-    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "state", {
-      title: _media.Media.DEFAULT_TITLE,
-      author: _media.Media.DEFAULT_AUTHOR,
-      type: _media.Media.DEFAULT_TYPE,
-      src: _media.Media.DEFAULT_SRC
-    });
-
-    (0, _utils.ZU_constructorHelper)(_this.state, props, _media.Media.ATTRIBUTE_LIST);
-    return _this;
-  }
-
-  _createClass(MediaController, [{
-    key: "render",
-    value: function render() {
-      return _react.default.createElement(_media_element.MediaEl, _extends({}, this.state, {
-        $_handleClick: this.$_handleClick
-      }));
-    }
-  }]);
-
-  return MediaController;
-}(_react.PureComponent);
-
-exports.MediaController = MediaController;
-
-_defineProperty(MediaController, "propTypes", _media.Media.PROPTYPES);
-},{"react":"SAdv","../utils.js":"JN0q","../models/media.js":"lX0X","../views_components/media_element.jsx":"6RLV"}],"7WCR":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.ZU_youtube = void 0;
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-// f***ing private statics
-function __isApiReady() {
-  return typeof YT !== "undefined";
-}
-
-var ZU_youtube =
-/*#__PURE__*/
-function () {
-  function ZU_youtube() {
-    _classCallCheck(this, ZU_youtube);
-  }
-
-  _createClass(ZU_youtube, null, [{
-    key: "init",
-    value: function init() {
-      if (!__isApiReady()) {
-        var tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        document.getElementsByTagName('body')[0].insertAdjacentElement('beforeend', tag);
-      }
-    }
-  }, {
-    key: "playVideo",
-    value: function playVideo(youtube_player_hook, videoId) {
-      var player;
-
-      function _asyncHandler() {
-        player = new YT.Player(youtube_player_hook, {
-          height: '0',
-          width: '0',
-          videoId: videoId,
-          events: {
-            onReady: function onReady(event) {
-              event.target.playVideo();
-            } //,
-            // 	'onStateChange': onPlayerStateChange
-
-          }
-        });
-      }
-
-      ;
-
-      if (!__isApiReady()) {
-        window.onYouTubeIframeAPIReady = _asyncHandler;
-      } else _asyncHandler();
-    } // 5. The API calls this function when the player's state changes.
-    //		The function indicates that when playing a video (state=1),
-    //		the player should play for six seconds and then stop.
-    // let done = false;
-    // function onPlayerStateChange(event) {
-    // 	if (event.data == YT.PlayerState.PLAYING && !done) {
-    // 		setTimeout(stopVideo, 6000);
-    // 		done = true;
-    // 	}
-    // }
-    // function stopVideo() {
-    // 	player.stopVideo();
-    // }
-
-  }]);
-
-  return ZU_youtube;
-}();
-
-exports.ZU_youtube = ZU_youtube;
-},{}],"E9zH":[function(require,module,exports) {
+},{"prop-types":"yu5W"}],"E9zH":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1494,7 +1483,9 @@ _defineProperty(PlayerWidget, "PROPTYPES", {
   playlist: _propTypes.default.object,
   status: _propTypes.default.symbol.isRequired
 });
-},{"./media.js":"lX0X","prop-types":"yu5W"}],"qIrV":[function(require,module,exports) {
+},{"./media.js":"lX0X","prop-types":"yu5W"}],"DkVY":[function(require,module,exports) {
+module.exports = "/loading.88340545.png";
+},{}],"qIrV":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1504,7 +1495,11 @@ exports.PlayerWidgetEl = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
+var _play_button_element = require("./play_button_element.jsx");
+
 require("../style/player_widget.styl");
+
+var _loading = _interopRequireDefault(require("../../assets/images/loading.png"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1513,19 +1508,44 @@ var PlayerWidgetEl = function PlayerWidgetEl(props) {
   return _react.default.createElement("div", {
     "data-status": props.status.description,
     className: "_player_widget"
-  }, _react.default.createElement("h3", {
+  }, props.currentAlbum ? _react.default.createElement("img", {
+    src: props.currentAlbum.cover,
+    className: "_player_widget_img"
+  }) : null, _react.default.createElement("div", {
+    className: "_player_widget_flex_container"
+  }, _react.default.createElement("div", {
+    className: "_player_widget_controls"
+  }, props.player_loading ? _react.default.createElement("img", {
+    src: _loading.default,
+    className: "loading"
+  }) : null, props.player_play ? _react.default.createElement("button", {
+    onClick: props.$_handlePauseClick,
+    className: "button _player_widget_pause"
+  }, "||") : null, props.currentSongTittle && !(props.player_loading || props.player_play) ? _react.default.createElement(_play_button_element.PlayButtonEl, {
+    $_handlePlayClick: props.$_handlePlayClick,
+    className: "_player_widget_play"
+  }) : null), _react.default.createElement("div", {
+    className: "_player_widget_info"
+  }, _react.default.createElement("p", {
     className: "_player_widget_title"
-  }, "now playing", props.currentSongTittle), _react.default.createElement("button", {
-    onClick: props.$_handleOpenClick
-  }, "Open"), _react.default.createElement("button", {
-    onClick: props.$_handleMinimizeClick
-  }, "Minimize"), _react.default.createElement("button", {
-    onClick: props.$_handleCloseClick
-  }, "Close"), props.children);
+  }, props.currentSongTittle ? _react.default.createElement(_react.default.Fragment, null, "now playing:", _react.default.createElement("b", null, props.currentSongTittle)) : "Chose a song")), _react.default.createElement("div", {
+    className: "_player_widget_controls"
+  }, _react.default.createElement("button", {
+    onClick: props.$_handleOpenClick,
+    className: "button_open"
+  }, "^"), _react.default.createElement("button", {
+    onClick: props.$_handleMinimizeClick,
+    className: "button_minimize"
+  }, "-"), _react.default.createElement("button", {
+    onClick: props.$_handleCloseClick,
+    className: "button_close"
+  }, "\xD7")), _react.default.createElement("div", {
+    className: "_player_engine"
+  }, props.children)));
 };
 
 exports.PlayerWidgetEl = PlayerWidgetEl;
-},{"react":"SAdv","../style/player_widget.styl":"X7jF"}],"S9Ar":[function(require,module,exports) {
+},{"react":"SAdv","./play_button_element.jsx":"JNn3","../style/player_widget.styl":"X7jF","../../assets/images/loading.png":"DkVY"}],"S9Ar":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1551,6 +1571,20 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
@@ -1569,6 +1603,8 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+function _classPrivateFieldSet(receiver, privateMap, value) { if (!privateMap.has(receiver)) { throw new TypeError("attempted to set private field on non-instance"); } var descriptor = privateMap.get(receiver); if (descriptor.set) { descriptor.set.call(receiver, value); } else { if (!descriptor.writable) { throw new TypeError("attempted to set read only private field"); } descriptor.value = value; } return value; }
+
 function _classPrivateFieldGet(receiver, privateMap) { if (!privateMap.has(receiver)) { throw new TypeError("attempted to get private field on non-instance"); } var descriptor = privateMap.get(receiver); if (descriptor.get) { return descriptor.get.call(receiver); } return descriptor.value; }
 
 // DAEMONIC PRIVATE STATICs ... do you know much I hate JS????
@@ -1585,6 +1621,7 @@ function __domElementContainer() {
 ;
 
 function __popPlayerEvent(eventNameSymbol, eventData) {
+  // console.log('__popPlayerEvent', eventNameSymbol, eventData);
   __domElementContainer().dispatchEvent(new CustomEvent(eventNameSymbol.description, {
     detail: eventData
   }));
@@ -1602,15 +1639,20 @@ function (_PureComponent) {
     // PRIVATE
     // GOD BLESSED STATICs
     value: function show() {
+      console.log('PlayerWidgetController.show');
+
       __popPlayerEvent(__EVENT_ID_SHOW);
     }
   }, {
     key: "playTracks",
-    value: function playTracks(newTracks) {
-      // console.log('PlayerWidgetController.playTracks', newTracks);
-      __popPlayerEvent(__EVENT_ID_PLAY_TRACKS, {
-        tracks: newTracks
-      });
+    value: function playTracks(newTracksAlbum) {
+      newTracksAlbum = {
+        tracks: _toConsumableArray(newTracksAlbum.tracks),
+        album: _objectSpread({}, newTracksAlbum.album)
+      };
+      console.log('PlayerWidgetController.playTracks', newTracksAlbum);
+
+      __popPlayerEvent(__EVENT_ID_PLAY_TRACKS, newTracksAlbum);
     }
   }, {
     key: "isActive",
@@ -1656,63 +1698,287 @@ function (_PureComponent) {
     _addPlayerEvent.set(_assertThisInitialized(_assertThisInitialized(_this)), {
       writable: true,
       value: function value(eventNameSymbol, eventFunction) {
+        // console.log('#addPlayerEvent',eventNameSymbol, eventFunction);
         __domElementContainer().addEventListener(eventNameSymbol.description, function (e) {
           eventFunction(e.detail);
         });
       }
     });
 
+    _currentTrack.set(_assertThisInitialized(_assertThisInitialized(_this)), {
+      writable: true,
+      value: null
+    });
+
+    _currentTracks.set(_assertThisInitialized(_assertThisInitialized(_this)), {
+      writable: true,
+      value: []
+    });
+
+    _setPlayerLoading2.set(_assertThisInitialized(_assertThisInitialized(_this)), {
+      writable: true,
+      value: function value() {
+        console.log('#_setPlayerLoading');
+
+        _this.setState({
+          player_loading: true
+        });
+
+        _this.setState({
+          player_play: false
+        });
+      }
+    });
+
+    _setPlayerPaused2.set(_assertThisInitialized(_assertThisInitialized(_this)), {
+      writable: true,
+      value: function value() {
+        console.log('#pauseTrack', _classPrivateFieldGet(_assertThisInitialized(_assertThisInitialized(_this)), _currentTrack));
+        if (_classPrivateFieldGet(_assertThisInitialized(_assertThisInitialized(_this)), _currentTrack) && _classPrivateFieldGet(_assertThisInitialized(_assertThisInitialized(_this)), _currentTrack).type === 'youtube') _youtube.ZU_youtube.pauseVideo();
+
+        _this.setState({
+          player_loading: false
+        });
+
+        _this.setState({
+          player_play: false
+        });
+      }
+    });
+
+    _setPlayerPlaying2.set(_assertThisInitialized(_assertThisInitialized(_this)), {
+      writable: true,
+      value: function value() {
+        _this.setState({
+          player_loading: false
+        });
+
+        _this.setState({
+          player_play: true
+        });
+      }
+    });
+
     _playTrack.set(_assertThisInitialized(_assertThisInitialized(_this)), {
       writable: true,
-      value: function value(track) {
-        console.log('#playTrack', track);
+      value: function () {
+        var _value = _asyncToGenerator(
+        /*#__PURE__*/
+        regeneratorRuntime.mark(function _callee(track) {
+          return regeneratorRuntime.wrap(function _callee$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  track = track || _classPrivateFieldGet(_assertThisInitialized(_assertThisInitialized(_this)), _currentTracks).pop();
+                  console.log('#playTrack', track);
 
-        _this.setState({
-          currentTrack: track
-        });
+                  _classPrivateFieldSet(_assertThisInitialized(_assertThisInitialized(_this)), _currentTrack, track);
 
-        _this.setState({
-          currentSongTittle: track.title
-        });
+                  _this.setState({
+                    currentSongTittle: track.title
+                  });
 
-        if (track.type === 'youtube') {
-          _youtube.ZU_youtube.init();
+                  if (!(track.type === 'youtube')) {
+                    _context.next = 10;
+                    break;
+                  }
 
-          _youtube.ZU_youtube.playVideo('youtube_player_hook', track.src);
+                  _youtube.ZU_youtube.init('youtube_player_hook');
+
+                  _context.next = 8;
+                  return _youtube.ZU_youtube.playVideo(track.src);
+
+                case 8:
+                  _youtube.ZU_youtube.setVideoStatusHandler(_youtube.ZU_youtube.STATUS_PLAYING, _classPrivateFieldGet(_assertThisInitialized(_assertThisInitialized(_this)), _setPlayerPlaying2));
+
+                  _youtube.ZU_youtube.setVideoStatusHandler(_youtube.ZU_youtube.STATUS_BUFFERING, _classPrivateFieldGet(_assertThisInitialized(_assertThisInitialized(_this)), _setPlayerLoading2));
+
+                case 10:
+                case "end":
+                  return _context.stop();
+              }
+            }
+          }, _callee, this);
+        }));
+
+        function value(_x) {
+          return _value.apply(this, arguments);
         }
-      }
+
+        return value;
+      }()
+    });
+
+    _queueNextTracks2.set(_assertThisInitialized(_assertThisInitialized(_this)), {
+      writable: true,
+      value: function () {
+        var _value2 = _asyncToGenerator(
+        /*#__PURE__*/
+        regeneratorRuntime.mark(function _callee2() {
+          var _queueNextTracks;
+
+          return regeneratorRuntime.wrap(function _callee2$(_context2) {
+            while (1) {
+              switch (_context2.prev = _context2.next) {
+                case 0:
+                  console.log('#queueNextTracks');
+
+                  _queueNextTracks = function _queueNextTracks() {
+                    console.log('#queueNextTracks', _classPrivateFieldGet(_assertThisInitialized(_assertThisInitialized(_this)), _currentTracks));
+                    if (_classPrivateFieldGet(_assertThisInitialized(_assertThisInitialized(_this)), _currentTracks).length) _classPrivateFieldGet(_assertThisInitialized(_assertThisInitialized(_this)), _playTrack).call(_assertThisInitialized(_assertThisInitialized(_this)));
+                  };
+
+                  if (_classPrivateFieldGet(_assertThisInitialized(_assertThisInitialized(_this)), _currentTrack).type === 'youtube') {
+                    _youtube.ZU_youtube.setVideoStatusHandler(_youtube.ZU_youtube.STATUS_ENDED, _queueNextTracks);
+                  }
+
+                case 3:
+                case "end":
+                  return _context2.stop();
+              }
+            }
+          }, _callee2, this);
+        }));
+
+        function value() {
+          return _value2.apply(this, arguments);
+        }
+
+        return value;
+      }()
+    });
+
+    _resumeTrack.set(_assertThisInitialized(_assertThisInitialized(_this)), {
+      writable: true,
+      value: function () {
+        var _value3 = _asyncToGenerator(
+        /*#__PURE__*/
+        regeneratorRuntime.mark(function _callee3() {
+          return regeneratorRuntime.wrap(function _callee3$(_context3) {
+            while (1) {
+              switch (_context3.prev = _context3.next) {
+                case 0:
+                  if (_classPrivateFieldGet(_assertThisInitialized(_assertThisInitialized(_this)), _currentTrack) && _classPrivateFieldGet(_assertThisInitialized(_assertThisInitialized(_this)), _currentTrack).type === 'youtube') _youtube.ZU_youtube.resumeVideo();
+
+                case 1:
+                case "end":
+                  return _context3.stop();
+              }
+            }
+          }, _callee3, this);
+        }));
+
+        function value() {
+          return _value3.apply(this, arguments);
+        }
+
+        return value;
+      }()
+    });
+
+    _pauseTrack.set(_assertThisInitialized(_assertThisInitialized(_this)), {
+      writable: true,
+      value: _classPrivateFieldGet(_assertThisInitialized(_assertThisInitialized(_this)), _setPlayerPaused2)
+    });
+
+    _stopTrack.set(_assertThisInitialized(_assertThisInitialized(_this)), {
+      writable: true,
+      value: function () {
+        var _value4 = _asyncToGenerator(
+        /*#__PURE__*/
+        regeneratorRuntime.mark(function _callee4() {
+          return regeneratorRuntime.wrap(function _callee4$(_context4) {
+            while (1) {
+              switch (_context4.prev = _context4.next) {
+                case 0:
+                  console.log('#stopTrack', _classPrivateFieldGet(_assertThisInitialized(_assertThisInitialized(_this)), _currentTrack));
+
+                  if (_classPrivateFieldGet(_assertThisInitialized(_assertThisInitialized(_this)), _currentTrack) && _classPrivateFieldGet(_assertThisInitialized(_assertThisInitialized(_this)), _currentTrack).type === 'youtube') {
+                    _youtube.ZU_youtube.stopVideo();
+
+                    _classPrivateFieldSet(_assertThisInitialized(_assertThisInitialized(_this)), _currentTrack, null);
+
+                    _classPrivateFieldSet(_assertThisInitialized(_assertThisInitialized(_this)), _currentTracks, undefined);
+                  }
+
+                  _context4.next = 4;
+                  return _this.setState({
+                    currentSongTittle: undefined
+                  });
+
+                case 4:
+                  _context4.next = 6;
+                  return _this.setState({
+                    currentAlbum: undefined
+                  });
+
+                case 6:
+                case "end":
+                  return _context4.stop();
+              }
+            }
+          }, _callee4, this);
+        }));
+
+        function value() {
+          return _value4.apply(this, arguments);
+        }
+
+        return value;
+      }()
     });
 
     _playTracks.set(_assertThisInitialized(_assertThisInitialized(_this)), {
       writable: true,
-      value: function value(data) {
-        console.log('#playTracks', data.tracks);
+      value: function () {
+        var _value5 = _asyncToGenerator(
+        /*#__PURE__*/
+        regeneratorRuntime.mark(function _callee5(data) {
+          return regeneratorRuntime.wrap(function _callee5$(_context5) {
+            while (1) {
+              switch (_context5.prev = _context5.next) {
+                case 0:
+                  console.log('#playTracks', data);
 
-        _classPrivateFieldGet(_assertThisInitialized(_assertThisInitialized(_this)), _playTrack).call(_assertThisInitialized(_assertThisInitialized(_this)), data.tracks.pop());
+                  _classPrivateFieldSet(_assertThisInitialized(_assertThisInitialized(_this)), _currentTracks, data.tracks);
 
-        _this.setState({
-          tracks: data.tracks
-        });
-      }
-    });
+                  _context5.next = 4;
+                  return _classPrivateFieldGet(_assertThisInitialized(_assertThisInitialized(_this)), _stopTrack).call(_assertThisInitialized(_assertThisInitialized(_this)));
 
-    _getCurrentTrack.set(_assertThisInitialized(_assertThisInitialized(_this)), {
-      writable: true,
-      value: function value() {
-        var currentTrack = _this.state.tracks.pop();
+                case 4:
+                  _context5.next = 6;
+                  return _classPrivateFieldGet(_assertThisInitialized(_assertThisInitialized(_this)), _playTrack).call(_assertThisInitialized(_assertThisInitialized(_this)));
 
-        _this.setState({
-          tracks: currentTrack
-        });
+                case 6:
+                  _classPrivateFieldGet(_assertThisInitialized(_assertThisInitialized(_this)), _queueNextTracks2).call(_assertThisInitialized(_assertThisInitialized(_this)));
 
-        return currentTrack;
-      }
+                  _this.setState({
+                    currentAlbum: data.album
+                  });
+
+                  if (_this.state.status === _player.PlayerWidget.STATUS_CLOSE) _this.$_DOMeventHandlers.$_handleMinimizeClick();
+
+                case 9:
+                case "end":
+                  return _context5.stop();
+              }
+            }
+          }, _callee5, this);
+        }));
+
+        function value(_x2) {
+          return _value5.apply(this, arguments);
+        }
+
+        return value;
+      }()
     });
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "state", {
       status: _player.PlayerWidget.STATUS_MINIMIZE // tracks: Media array
       // currentSongTittle
       // currentTrack
+      // currentAlbum
 
     });
 
@@ -1725,12 +1991,16 @@ function (_PureComponent) {
       },
       $_handleCloseClick: function $_handleCloseClick() {
         _classPrivateFieldGet(_assertThisInitialized(_assertThisInitialized(_this)), _changeStatus).call(_assertThisInitialized(_assertThisInitialized(_this)), _player.PlayerWidget.STATUS_CLOSE);
-      }
+
+        _classPrivateFieldGet(_assertThisInitialized(_assertThisInitialized(_this)), _stopTrack).call(_assertThisInitialized(_assertThisInitialized(_this)));
+      },
+      $_handlePlayClick: _classPrivateFieldGet(_assertThisInitialized(_assertThisInitialized(_this)), _resumeTrack),
+      $_handlePauseClick: _classPrivateFieldGet(_assertThisInitialized(_assertThisInitialized(_this)), _setPlayerPaused2)
     });
 
     _classPrivateFieldGet(_assertThisInitialized(_assertThisInitialized(_this)), _changeStatus).call(_assertThisInitialized(_assertThisInitialized(_this)));
 
-    _classPrivateFieldGet(_assertThisInitialized(_assertThisInitialized(_this)), _addPlayerEvent).call(_assertThisInitialized(_assertThisInitialized(_this)), __EVENT_ID_SHOW, _this.$_DOMeventHandlers.minimizeClick);
+    _classPrivateFieldGet(_assertThisInitialized(_assertThisInitialized(_this)), _addPlayerEvent).call(_assertThisInitialized(_assertThisInitialized(_this)), __EVENT_ID_SHOW, _this.$_DOMeventHandlers.$_handleMinimizeClick);
 
     _classPrivateFieldGet(_assertThisInitialized(_assertThisInitialized(_this)), _addPlayerEvent).call(_assertThisInitialized(_assertThisInitialized(_this)), __EVENT_ID_PLAY_TRACKS, _classPrivateFieldGet(_assertThisInitialized(_assertThisInitialized(_this)), _playTracks));
 
@@ -1773,11 +2043,27 @@ var _changeStatus = new WeakMap();
 
 var _addPlayerEvent = new WeakMap();
 
+var _currentTrack = new WeakMap();
+
+var _currentTracks = new WeakMap();
+
+var _setPlayerLoading2 = new WeakMap();
+
+var _setPlayerPaused2 = new WeakMap();
+
+var _setPlayerPlaying2 = new WeakMap();
+
 var _playTrack = new WeakMap();
 
-var _playTracks = new WeakMap();
+var _queueNextTracks2 = new WeakMap();
 
-var _getCurrentTrack = new WeakMap();
+var _resumeTrack = new WeakMap();
+
+var _pauseTrack = new WeakMap();
+
+var _stopTrack = new WeakMap();
+
+var _playTracks = new WeakMap();
 
 var _EVENT_STATUS_SHOW = {
   writable: true,
@@ -1785,7 +2071,127 @@ var _EVENT_STATUS_SHOW = {
 };
 
 _defineProperty(PlayerWidgetController, "propTypes", _player.PlayerWidget.PROPTYPES);
-},{"react":"SAdv","react-dom":"CSY6","../utils.js":"JN0q","../vendors/youtube.js":"7WCR","../models/player.js":"E9zH","../views_components/player_widget_element.jsx":"qIrV"}],"gZVD":[function(require,module,exports) {
+},{"react":"SAdv","react-dom":"CSY6","../utils.js":"JN0q","../vendors/youtube.js":"7WCR","../models/player.js":"E9zH","../views_components/player_widget_element.jsx":"qIrV"}],"6RLV":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.MediaEl = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _play_button_element = require("./play_button_element.jsx");
+
+require("../style/media.styl");
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+var MediaEl = function MediaEl(props) {
+  return _react.default.createElement("div", {
+    className: "_media"
+  }, _react.default.createElement("p", {
+    className: "_media_title"
+  }, props.src && props.type ? _react.default.createElement(_play_button_element.PlayButtonEl, {
+    $_handlePlayClick: props.$_handlePlayClick
+  }) : null, props.track_number ? _react.default.createElement("span", null, props.track_number, " -  ") : null, _react.default.createElement("b", null, props.title), _react.default.createElement("span", null, " (", props.author, ")")));
+};
+
+exports.MediaEl = MediaEl;
+},{"react":"SAdv","./play_button_element.jsx":"JNn3","../style/media.styl":"X7jF"}],"sjfk":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.MediaController = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _utils = require("../utils.js");
+
+var _player_widget_controller = require("./player_widget_controller.jsx");
+
+var _media = require("../models/media.js");
+
+var _media_element = require("../views_components/media_element.jsx");
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var MediaController =
+/*#__PURE__*/
+function (_PureComponent) {
+  _inherits(MediaController, _PureComponent);
+
+  function MediaController(props) {
+    var _this;
+
+    _classCallCheck(this, MediaController);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(MediaController).call(this, props));
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "parent_album", {});
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "$_handlePlayClick", function (event) {
+      // console.log('$_handlePlayClick');
+      _player_widget_controller.PlayerWidgetController.playTracks({
+        tracks: [_this.state],
+        album: _this.parent_album
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "state", {
+      title: _media.Media.DEFAULT_TITLE,
+      author: _media.Media.DEFAULT_AUTHOR,
+      type: _media.Media.DEFAULT_TYPE,
+      src: _media.Media.DEFAULT_SRC // track_number: Media.track_number
+
+    });
+
+    (0, _utils.ZU_constructorHelper)(_this.state, props, _media.Media.ATTRIBUTE_LIST);
+    _this.parent_album = props.album;
+    return _this;
+  }
+
+  _createClass(MediaController, [{
+    key: "render",
+    value: function render() {
+      // console.log('MediaController.render', this.state);
+      return _react.default.createElement(_media_element.MediaEl, _extends({}, this.state, {
+        $_handlePlayClick: this.$_handlePlayClick
+      }));
+    }
+  }]);
+
+  return MediaController;
+}(_react.PureComponent);
+
+exports.MediaController = MediaController;
+
+_defineProperty(MediaController, "propTypes", _media.Media.PROPTYPES);
+},{"react":"SAdv","../utils.js":"JN0q","./player_widget_controller.jsx":"S9Ar","../models/media.js":"lX0X","../views_components/media_element.jsx":"6RLV"}],"gZVD":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1854,6 +2260,8 @@ function (_PureComponent) {
       value: Symbol('MINIMIZE')
     });
 
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "album_excerpt", {});
+
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "state", {
       // year: Album.DEFAULT_YEAR,
       cover: _album.Album.DEFAULT_COVER,
@@ -1878,7 +2286,10 @@ function (_PureComponent) {
       },
       $_handlePlayClick: function $_handlePlayClick() {
         // console.log('$_handlePlayClick');
-        _player_widget_controller.PlayerWidgetController.playTracks(_this.state.tracks);
+        _player_widget_controller.PlayerWidgetController.playTracks({
+          tracks: _this.state.tracks,
+          album: _this.album_excerpt
+        });
       } // handleClick = (event) => {
       // 	console.log(event, this.state.title);
       // 	this.setState({content: 'Cambió algo'})
@@ -1887,14 +2298,19 @@ function (_PureComponent) {
     });
 
     (0, _utils.ZU_constructorHelper)(_this.state, props, _album.Album.ATTRIBUTE_LIST);
+    _this.album_excerpt.cover = props.cover;
+    _this.album_excerpt.title = props.title;
     return _this;
   }
 
   _createClass(AlbumController, [{
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       return _react.default.createElement(_album_element.AlbumEl, _extends({}, this.state, this.$_eventHandlers), this.state.tracks.map(function (media, media_index) {
         return _react.default.createElement(_media_controller.MediaController, _extends({}, media, {
+          album: _this2.album_excerpt,
           key: media_index
         }));
       }));
@@ -10182,7 +10598,7 @@ function _main() {
 
 ;
 main();
-},{"react":"SAdv","react-dom":"CSY6","../controllers_containers/playlist_controller.jsx":"rUwH","../controllers_containers/player_widget_controller.jsx":"S9Ar","../views_components/index_layout.jsx":"D/S0","babel-polyfill":"gepb","_bundle_loader":"PgGh","../../data_fixtures/api_index.json":[["api_index.ecb428c0.js","T4Ih"],"T4Ih"]}],"Awvu":[function(require,module,exports) {
+},{"react":"SAdv","react-dom":"CSY6","../controllers_containers/playlist_controller.jsx":"rUwH","../controllers_containers/player_widget_controller.jsx":"S9Ar","../views_components/index_layout.jsx":"D/S0","babel-polyfill":"gepb","_bundle_loader":"PgGh","../../data_fixtures/api_index.json":[["api_index.6274f31c.js","T4Ih"],"T4Ih"]}],"Awvu":[function(require,module,exports) {
 module.exports = function loadJSBundle(bundle) {
   return new Promise(function (resolve, reject) {
     var script = document.createElement('script');
@@ -10207,4 +10623,4 @@ module.exports = function loadJSBundle(bundle) {
 },{}],0:[function(require,module,exports) {
 var b=require("PgGh");b.register("js",require("Awvu"));
 },{}]},{},[0,"Focm"], "_debug_")
-//# sourceMappingURL=/entrypoints.4c9cf0ea.map
+//# sourceMappingURL=/entrypoints.9e019de4.map
