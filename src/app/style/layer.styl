@@ -1,40 +1,42 @@
 @require '_variables'
 
-$PLAYER_HEIGHT = 6rem
-
 #react_hook_main
 #react_hook_player
 	display flex
 #react_hook_main
 	align-self stretch
-	height "calc(100% - %s)" % $PLAYER_HEIGHT
+	height "calc(100% - %s)" % $ZM_PLAYER_HEIGHT
 	order 1
 
 #react_hook_player
-	max-height $PLAYER_HEIGHT
+	max-height $ZM_PLAYER_HEIGHT
 	order 2
 	&[status="CLOSE"] + #react_hook_main
 		height 100%
 		& ._side_menu_show_player
 			display inherit
 
+$ZM_SIDE_MENU_PADDING = 2em
 ._side_menu
 	display inline-block
 	align-self stretch
+	position relative
 	width $SIDE_MENU_WIDTH
-	padding 2em
+	padding $ZM_SIDE_MENU_PADDING
 	background-color $ZM_BLACK
 	color $ZM_WHITE
 
 ._side_menu_show_player
 	display none
+	position: absolute
+	bottom $ZM_SIDE_MENU_PADDING
+	left $ZM_SIDE_MENU_PADDING
 
 
 .main_content
 	display inline-block
-	height 100%
 	padding 2em
-	align-self start
+	align-self stretch
 	width "calc(100% - %s)" % $SIDE_MENU_WIDTH
 	overflow-y auto
 

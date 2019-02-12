@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 export class Media {
-	static ATTRIBUTE_LIST = ['title', 'author', 'type', 'src']
+	static ATTRIBUTE_LIST = ['title', 'author', 'type', 'src', 'track_number']
 	static DEFAULT_TITLE = 'Album sin título'
 	static DEFAULT_AUTHOR = 'Autor desconocido'
 	static DEFAULT_TYPE = 'none'
@@ -20,5 +20,6 @@ export class Media {
 			'youtube', 'audio', 'video', 'image', 'none'
 		]),
 		src: PropTypes.string, //.isRequired,
+		track_number: PropTypes.number
 	};
 }

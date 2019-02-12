@@ -14,6 +14,7 @@ function __domElementContainer() {
 	return document.getElementById(__DOM_ELEMENT_CONTAINER_ID);
 };
 function __popPlayerEvent(eventNameSymbol, eventData) {
+	// console.log('__popPlayerEvent', eventNameSymbol, eventData);
 	__domElementContainer().dispatchEvent(
 		new CustomEvent(eventNameSymbol.description, {detail: eventData})
 	);
@@ -34,42 +35,110 @@ export class PlayerWidgetController extends PureComponent {
 		)
 	}
 	#addPlayerEvent = (eventNameSymbol, eventFunction) => {
+		// console.log('#addPlayerEvent',eventNameSymbol, eventFunction);
 		__domElementContainer().addEventListener(
 			eventNameSymbol.description,
 			(e) => {eventFunction(e.detail)}
 		);
 	};
-	#playTrack = (track) => {
-		console.log('#playTrack',track);
-		this.setState({currentTrack: track});
+
+	#currentTrack = null
+	#currentTracks = []
+	#_setPlayerLoading = () => {
+		console.log('#_setPlayerLoading');
+		this.setState({player_loading: true});
+		this.setState({player_play: false});
+	}
+	#_setPlayerPaused = () => {
+		console.log('#pauseTrack', this.#currentTrack);
+		if(
+			this.#currentTrack &&
+			this.#currentTrack.type === 'youtube'
+		) ZU_youtube.pauseVideo()
+		this.setState({player_loading: false});
+		this.setState({player_play: false});
+	}
+	#_setPlayerPlaying = () => {
+		this.setState({player_loading: false});
+		this.setState({player_play: true});
+	}
+	#playTrack = async (track) => {
+		track = track || this.#currentTracks.pop()
+		console.log('#playTrack', track);
+		this.#currentTrack = track
 		this.setState({currentSongTittle: track.title});
 		if(track.type === 'youtube'){
-			ZU_youtube.init();
-			ZU_youtube.playVideo('youtube_player_hook', track.src)
+			ZU_youtube.init('youtube_player_hook');
+			await ZU_youtube.playVideo(track.src)
+			ZU_youtube.setVideoStatusHandler(
+				ZU_youtube.STATUS_PLAYING,
+				this.#_setPlayerPlaying
+			)
+			ZU_youtube.setVideoStatusHandler(
+				ZU_youtube.STATUS_BUFFERING,
+				this.#_setPlayerLoading
+			)
 		}
 	}
-	#playTracks = data => {
-		console.log('#playTracks', data.tracks);
-		this.#playTrack(data.tracks.pop())
-		this.setState({tracks: data.tracks});
-		
+	#queueNextTracks = async () => {
+		console.log('#queueNextTracks');
+		let _queueNextTracks = () => {
+			console.log('#queueNextTracks', this.#currentTracks);
+			if(this.#currentTracks.length)
+				this.#playTrack()
+		}
+		if(this.#currentTrack.type === 'youtube'){
+			ZU_youtube.setVideoStatusHandler(
+				ZU_youtube.STATUS_ENDED,
+				_queueNextTracks
+			);
+		}
 	}
-
-	#getCurrentTrack = () => {
-		let currentTrack = this.state.tracks.pop()
-		this.setState({tracks: currentTrack});
-		return currentTrack
+	#resumeTrack = async () => {
+		if(
+			this.#currentTrack &&
+			this.#currentTrack.type === 'youtube'
+		) ZU_youtube.resumeVideo()
 	}
-
+	#pauseTrack = this.#_setPlayerPaused
+	#stopTrack = async () => {
+		console.log('#stopTrack', this.#currentTrack);
+		if(
+			this.#currentTrack &&
+			this.#currentTrack.type === 'youtube'
+		) {
+			ZU_youtube.stopVideo();
+			this.#currentTrack = null;
+			this.#currentTracks = undefined;
+		}
+		await this.setState({currentSongTittle: undefined});
+		await this.setState({currentAlbum: undefined})
+	}
+	
+	#playTracks = async data => {
+		console.log('#playTracks', data);
+		this.#currentTracks = data.tracks;
+		await this.#stopTrack();
+		await this.#playTrack();
+		this.#queueNextTracks();
+		this.setState({currentAlbum: data.album});
+		if(this.state.status === PlayerWidget.STATUS_CLOSE)
+			this.$_DOMeventHandlers.$_handleMinimizeClick();
+	}
 
 	// GOD BLESSED STATICs
 	static propTypes = PlayerWidget.PROPTYPES;
 	static show() {
+		console.log('PlayerWidgetController.show')
 		__popPlayerEvent(__EVENT_ID_SHOW)
 	}
-	static playTracks(newTracks) {
-		// console.log('PlayerWidgetController.playTracks', newTracks);
-		__popPlayerEvent(__EVENT_ID_PLAY_TRACKS, {tracks: newTracks})
+	static playTracks(newTracksAlbum) {
+		newTracksAlbum = {
+			tracks: [...newTracksAlbum.tracks],
+			album: {...newTracksAlbum.album}
+		}
+		console.log('PlayerWidgetController.playTracks', newTracksAlbum);
+		__popPlayerEvent(__EVENT_ID_PLAY_TRACKS, newTracksAlbum)
 	}
 
 	static get isActive(){
@@ -87,9 +156,8 @@ export class PlayerWidgetController extends PureComponent {
 		// 	PlayerWidget.ATTRIBUTE_LIST
 		// );
 		this.#changeStatus();
-		this.#addPlayerEvent(__EVENT_ID_SHOW, this.$_DOMeventHandlers.minimizeClick);
+		this.#addPlayerEvent(__EVENT_ID_SHOW, this.$_DOMeventHandlers.$_handleMinimizeClick);
 		this.#addPlayerEvent(__EVENT_ID_PLAY_TRACKS, this.#playTracks);
-
 	}
 
 
@@ -98,6 +166,7 @@ export class PlayerWidgetController extends PureComponent {
 		// tracks: Media array
 		// currentSongTittle
 		// currentTrack
+		// currentAlbum
 	}
 	$_DOMeventHandlers = {
 		$_handleOpenClick: () => {
@@ -108,7 +177,10 @@ export class PlayerWidgetController extends PureComponent {
 		},
 		$_handleCloseClick: () => {
 			this.#changeStatus(PlayerWidget.STATUS_CLOSE)
-		}
+			this.#stopTrack();
+		},
+		$_handlePlayClick: this.#resumeTrack,
+		$_handlePauseClick: this.#_setPlayerPaused
 	}
 
 	componentDidCatch(error, info) {

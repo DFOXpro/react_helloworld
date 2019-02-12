@@ -9,6 +9,7 @@ import {PlayerWidgetController} from './player_widget_controller.jsx'
 export class AlbumController extends PureComponent {
 	#STATUS_OPEN = Symbol('OPEN')
 	#STATUS_MINIMIZE = Symbol('MINIMIZE')
+	album_excerpt = {}
 	static propTypes = Album.PROPTYPES;
 
 	constructor (props) {
@@ -19,6 +20,8 @@ export class AlbumController extends PureComponent {
 			props,
 			Album.ATTRIBUTE_LIST
 		);
+		this.album_excerpt.cover = props.cover
+		this.album_excerpt.title = props.title
 	}
 
 	state = {
@@ -40,10 +43,12 @@ export class AlbumController extends PureComponent {
 		},
 		$_handlePlayClick: () =>{
 			// console.log('$_handlePlayClick');
-			PlayerWidgetController.playTracks(this.state.tracks)
+			PlayerWidgetController.playTracks({
+				tracks: this.state.tracks,
+				album: this.album_excerpt
+			})
 		}
 	}
-
 
 	// handleClick = (event) => {
 	// 	console.log(event, this.state.title);
@@ -59,6 +64,7 @@ export class AlbumController extends PureComponent {
 				each media, media_index in this.state.tracks
 					MediaController(
 						...media
+						album= this.album_excerpt
 						key= media_index
 					)
 		`)

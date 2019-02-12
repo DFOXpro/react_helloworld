@@ -1,5 +1,6 @@
 import React from "react";
 
+import {PlayButtonEl} from './play_button_element.jsx';
 import '../style/album.styl';
 
 const AlbumEl = props => {
@@ -8,7 +9,7 @@ const AlbumEl = props => {
 		._album(
 			data-status= props.status
 		)
-			button._album_play(onClick= props.$_handlePlayClick) Play
+			PlayButtonEl._album_play($_handlePlayClick= props.$_handlePlayClick)
 			._album_resume(onClick= props.$_handleOpenClick)
 				img(
 					src= props.cover

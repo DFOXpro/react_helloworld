@@ -1,1 +1,56 @@
-// cnt be blank
+@require '_variables'
+
+$PLAYER_PADDING = ($ZM_PLAYER_HEIGHT/10)
+
+#react_hook_player
+	// state useless
+	// &[status='CLOSE'] > .button_close
+	// 	display none
+	&[status= 'MINIMIZE'] .button_minimize
+		display none
+	&[status= 'OPEN']
+		& ._player_widget
+			border solid 1px $ZM_BLUE
+			position absolute
+			bottom 0
+			left 0
+			height 20em
+		& .button_open
+			display none
+		& ._player_engine
+			display block
+			width: 100%
+
+._player_widget
+	background-color $ZM_WHITE
+	display flex
+	width 100%
+
+._player_widget_img
+	margin-top $PLAYER_PADDING
+	margin-left $PLAYER_PADDING
+	width auto
+	height "calc(100% - %s)" % (2*$PLAYER_PADDING)
+._player_widget_flex_container
+	display flex
+	flex-wrap wrap
+	flex auto
+._player_widget_controls
+._player_widget_info
+	padding $PLAYER_PADDING
+	max-height 3em
+
+._player_widget_info
+	flex auto
+._player_widget_controls
+	display flex
+	align-items center
+// 	width 30%
+
+._player_engine
+	display none
+	padding $PLAYER_PADDING
+
+#youtube_player_hook
+	width: 100%
+	height: auto
