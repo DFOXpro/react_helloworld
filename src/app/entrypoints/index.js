@@ -2,12 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom'
 
 import {PlaylistController} from '../controllers_containers/playlist_controller.jsx'
+import {PlayerWidgetController} from '../controllers_containers/player_widget_controller.jsx'
 import {IndexLy} from '../views_components/index_layout.jsx'
 
 import 'babel-polyfill' // for dynamic import
 
 async function main() {
-	const render = (reactElement, hook_element = 'react_hook') => {
+	const render = (reactElement, hook_element = 'react_hook_main') => {
 		ReactDOM.render(
 			reactElement,
 			document.getElementById(hook_element)
@@ -17,12 +18,15 @@ async function main() {
 	// console.log('apiIndex', apiIndex, typeof(apiIndex));
 
 	render(pug`
-		IndexLy
+		IndexLy(
+			playerShow= PlayerWidgetController.show
+		)
 			each playlist, playlist_index in apiIndex.playlists
 				PlaylistController(
 					...playlist
 					key= playlist_index
 				)
-	`);
+		PlayerWidgetController
+	`)
 };
 main();

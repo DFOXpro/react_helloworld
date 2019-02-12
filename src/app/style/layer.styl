@@ -1,12 +1,34 @@
 @require '_variables'
 
-.side_menu
+$PLAYER_HEIGHT = 6rem
+
+#react_hook_main
+#react_hook_player
+	display flex
+#react_hook_main
+	align-self stretch
+	height "calc(100% - %s)" % $PLAYER_HEIGHT
+	order 1
+
+#react_hook_player
+	max-height $PLAYER_HEIGHT
+	order 2
+	&[status="CLOSE"] + #react_hook_main
+		height 100%
+		& ._side_menu_show_player
+			display inherit
+
+._side_menu
 	display inline-block
-	height 100%
+	align-self stretch
 	width $SIDE_MENU_WIDTH
 	padding 2em
-	background-color $ZORRO_MUSIC_BLACK
-	color $ZORRO_MUSIC_WHITE
+	background-color $ZM_BLACK
+	color $ZM_WHITE
+
+._side_menu_show_player
+	display none
+
 
 .main_content
 	display inline-block

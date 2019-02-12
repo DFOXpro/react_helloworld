@@ -9,12 +9,6 @@ const MediaEl = props => {
 			p
 				| Author:
 				= props.author
-			if props.type === 'youtube'
-				iframe(
-					type="text/html"
-					src="http://www.youtube.com/embed/"+props.src+"?enablejsapi=1&origin=http://example.com"
-					frameborder="0"
-				)
 	`)
 }
 
