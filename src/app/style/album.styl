@@ -6,59 +6,67 @@ $ZM_ALBUM_SIZE = 12em
 	// background-color grey
 	// color red
 	margin 0
-	padding: 0
+	padding 0
 	border solid 1px
-	border-color $ZORRO_MUSIC_BLACK
+	border-color $ZM_BLACK
 	display inline-block
 	position relative
 
-	&[open]
+	&[data-status='OPEN']
 		display flex
 		align-items start
 		width 100%
 		height auto
-		summary
+		._album_resume
 			display flex
 			width 100%
 			height 100%
-		h3
-			position relative
-			width auto
-			background-color transparent
-			left auto
-			bottom auto
-			white-space initial
+			h3
+				position relative
+				width auto
+				background-color transparent
+				left auto
+				bottom auto
+				white-space initial
 		._album_content
 		._album_resume
-			display: inline-block
+			display inline-block
 			width 50%
 			height 100%
 
-	summary
-		display inline-block
-		overflow hidden
+._album_resume
+	display inline-block
+	overflow hidden
+	width $ZM_ALBUM_SIZE
+	height $ZM_ALBUM_SIZE
+	// &::-webkit-details-marker //-webkit-details-marker
+	// 	color red
+	// 	display none
+
+	img
+		width 100%
+		height auto
+
+	h3
+		position absolute
+		margin 0
+		left 0
+		bottom 0
+		padding .5em
 		width $ZM_ALBUM_SIZE
-		height $ZM_ALBUM_SIZE
-		// &::-webkit-details-marker //-webkit-details-marker
-		// 	color red
-		// 	display none
+		background-color "%s77" % $ZM_WHITE
+		text-overflow ellipsis
+		overflow hidden
+		white-space nowrap
 
-		img
-			width 100%
-			height auto
+._album_play
+._album_minimize
+	position absolute
 
-		h3
-			position absolute
-			margin 0
-			left 0
-			bottom 0
-			padding .5em
-			width $ZM_ALBUM_SIZE
-			background-color "%s77" % $ZORRO_MUSIC_WHITE
-			text-overflow ellipsis
-			overflow hidden
-			white-space nowrap
+._album_minimize
+	top 0
+	right 0
 
-	._album_content
-		display none
-		padding 1em
+._album_content
+	display none
+	padding 1em
