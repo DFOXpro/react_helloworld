@@ -6,7 +6,7 @@ Este fue un experimento para implementar lo aprendido en el curso de Platzi sobr
 
 ## Cosas implementadas del curso
 
-Todo hasta la clase 18
+Todo hasta la clase 22
 
 
 ## Un paso más allá
@@ -19,10 +19,10 @@ Cosas extras al curso:
 * Css en Stylus
 * Varias mejoras para babel(object attributes, dynamic import)
 * git con LFS
-* Modelo (MVC) tipo POJsO (PORO)
+* Modelo (MVC) tipo POJsO (como PORO de RoR)
+* Implementación del API de Youtube
 
 ## Qué mirar
-
 
 `package.json` Muestra las dependencias usadas en el proyecto y los scripts disponibles para correr:
 * `npm run build` Genera los archivos para producción
