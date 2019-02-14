@@ -10,9 +10,9 @@ const PlayerWidgetEl = props => {
 		._player_widget(
 			data-status= props.status.description
 		)
-			if props.currentAlbum
+			if props.currentAlbumCover
 				img._player_widget_img(
-					src= props.currentAlbum.cover
+					src= props.currentAlbumCover
 				)
 			._player_widget_flex_container
 				._player_widget_controls()
@@ -27,10 +27,10 @@ const PlayerWidgetEl = props => {
 				._player_widget_info
 					p._player_widget_title
 						if props.currentSongTittle
-							| now playing:
+							= " Lecture en cours: "
 							b= props.currentSongTittle
 						else
-							| Chose a song
+							| Choisissez une chanson
 
 				._player_widget_controls
 					button.button_open(

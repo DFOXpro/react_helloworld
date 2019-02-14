@@ -18,7 +18,8 @@
 
 $ZM_SIDE_MENU_PADDING = 2em
 ._side_menu
-	display inline-block
+	display flex
+	flex-direction column
 	align-self stretch
 	position relative
 	width $SIDE_MENU_WIDTH
@@ -28,10 +29,13 @@ $ZM_SIDE_MENU_PADDING = 2em
 
 ._side_menu_show_player
 	display none
-	position: absolute
+	position absolute
 	bottom $ZM_SIDE_MENU_PADDING
 	left $ZM_SIDE_MENU_PADDING
 
+._side_menu_search_results
+	flex auto
+	overflow-y auto
 
 .main_content
 	display inline-block
