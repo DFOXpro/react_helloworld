@@ -24,14 +24,17 @@ export class PlaylistController extends PureComponent {
 		description: Playlist.DEFAULT_DESCRIPTION
 	}
 
-	// handleClick = (event) => {
-	// 	console.log(event, this.state.title);
-	// 	this.setState({title: 'Cambió algo'})
-	// }
+	$_handlePlayClick = (event) => {
+		// console.log('$_handlePlayClick');
+		new Playlist(this.state).play()
+	}
 
 	render() {
 		return (pug`
-			PlaylistEl(...this.state)
+			PlaylistEl(
+				...this.state
+				$_handlePlayClick= this.$_handlePlayClick
+			)
 				each album, album_index in this.state.albums
 					AlbumController(
 						...album

@@ -4,7 +4,6 @@ import {ZU_constructorHelper} from '../utils.js'
 import {Album} from '../models/album.js';
 import {AlbumEl} from '../views_components/album_element.jsx';
 import {MediaController} from './media_controller.jsx';
-import {PlayerWidgetController} from './player_widget_controller.jsx'
 
 export class AlbumController extends PureComponent {
 	#STATUS_OPEN = Symbol('OPEN')
@@ -43,10 +42,7 @@ export class AlbumController extends PureComponent {
 		},
 		$_handlePlayClick: () =>{
 			// console.log('$_handlePlayClick');
-			PlayerWidgetController.playTracks({
-				tracks: this.state.tracks,
-				album: this.album_excerpt
-			})
+			new Album(this.state).play()
 		}
 	}
 
@@ -64,7 +60,6 @@ export class AlbumController extends PureComponent {
 				each media, media_index in this.state.tracks
 					MediaController(
 						...media
-						album= this.album_excerpt
 						key= media_index
 					)
 		`)

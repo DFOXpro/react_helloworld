@@ -1,7 +1,6 @@
 import React, {PureComponent} from 'react';
 import {ZU_constructorHelper} from '../utils.js'
 
-import {PlayerWidgetController} from './player_widget_controller.jsx'
 import {Media} from '../models/media.js';
 import {MediaEl} from '../views_components/media_element.jsx';
 
@@ -15,15 +14,11 @@ export class MediaController extends PureComponent {
 			props,
 			Media.ATTRIBUTE_LIST
 		);
-		this.parent_album = props.album
 	}
 
 	$_handlePlayClick = (event) => {
 		// console.log('$_handlePlayClick');
-		PlayerWidgetController.playTracks({
-			tracks: [this.state],
-			album: this.parent_album
-		})
+		new Media(this.state).play()
 	}
 
 	state = {
@@ -31,7 +26,8 @@ export class MediaController extends PureComponent {
 		author: Media.DEFAULT_AUTHOR,
 		type: Media.DEFAULT_TYPE,
 		src: Media.DEFAULT_SRC,
-		// track_number: Media.track_number
+		// track_number: number
+		// parent_album: Album
 	}
 
 	render() {
