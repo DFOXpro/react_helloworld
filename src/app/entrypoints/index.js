@@ -53,10 +53,34 @@ import {Playlist} from '../models/playlist.js'
 		return digestedData
 	}
 
+	let fixFuckingChromeCSSBugs = () => {
+		// WHY HERE AND NO IN CSS?: Because the intent design works flawlessly in all browsers but Chrome
+		// and since css has no pure selector to X browsers this implementation is the more consistent
+		console.log('fixFuckingChromeCSSImgBug')
+		// the next code thanks to a long standing chrome bug, do you know how much I hate Google???
+		// https://bugs.chromium.org/p/chromium/issues/detail?id=503000
+		// and yeah I try to fix in css but there is no up2date stackoverflow or any other useful solution
+		if (navigator.appVersion.indexOf("Chrome/") != -1) {
+			let sheet = window.document.styleSheets[0]
+			sheet.insertRule(
+				// max-width ($ZM_PLAYER_HEIGHT/10)*8
+				"#react_hook_player[status='MINIMIZE'] ._player_widget_img{max-width:3.2rem;}",
+				sheet.cssRules.length
+			)
+			// chrome bug (again) under certain circustance the width get broken
+			sheet.insertRule(
+				// min-width $ZM_PLAYER_HEIGHT
+				"._player_widget_controls{min-width: 4rem;}",
+				sheet.cssRules.length
+			)
+		}
+	}
+
 	let main = async () => {
 		// Init the react MVC
 		const playlistsData = await _getPlaylistData()
 		initMVC('react_hook_main', playlistsData)
+		fixFuckingChromeCSSBugs()
 	}
 	main()
 })()

@@ -25,12 +25,13 @@ $PLAYER_PADDING = ($ZM_PLAYER_HEIGHT/10)
 	background-color $ZM_WHITE
 	display flex
 	width 100%
+	z-index 2 // chrome bug
 
 ._player_widget_img
 	margin-top $PLAYER_PADDING
 	margin-left $PLAYER_PADDING
-	width auto
 	height "calc(100% - %s)" % (2*$PLAYER_PADDING)
+	width auto // In chrome there is a bug with this line. see the fix in index.js
 ._player_widget_flex_container
 	display flex
 	flex-wrap wrap
@@ -45,7 +46,8 @@ $PLAYER_PADDING = ($ZM_PLAYER_HEIGHT/10)
 ._player_widget_controls
 	display flex
 	align-items center
-// 	width 30%
+	// min-width $ZM_PLAYER_HEIGHT // chrome bug (again)
+	// under certain circustance the width get broken see index.js again
 
 ._player_engine
 	display none
