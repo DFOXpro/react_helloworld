@@ -107,11 +107,11 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 })({"T4Ih":[function(require,module,exports) {
 module.exports = {
   "playlists": [{
-    "title": "Albumes editados recientemente",
-    "description": "Albumes que se les arregló los metadatos",
+    "title": "Albums récemment édités",
+    "description": "Albums ayant des métadonnées corrigées",
     "albums": [{
       "id": 1,
-      "description": "2007 Rebuild of evangelion OST",
+      "description": "Première Rebuild of Evangelion OST",
       "title": "Shiro SAGISU Music from \"EVANGELION: 1.0\" YOU ARE (NOT) ALONE",
       "cover": "cover-eva1.jpg",
       "year": 2007,
@@ -134,28 +134,83 @@ module.exports = {
         "src": "5jROfBD_DAQ",
         "track_number": 26
       }]
+    }, {
+      "id": 1,
+      "description": "Troisième Rebuild of evangelion OST",
+      "title": "Shiro SAGISU Music from \"EVANGELION: 3.0\" YOU CAN (NOT) REDO",
+      "cover": "cover-eva3.jpg",
+      "year": 2013,
+      "tracks": [{
+        "title": "Quatre Mains (a quatre mains) =3EM16=",
+        "author": "Shiro Sagisu",
+        "type": "youtube",
+        "src": "h2POFTNBi_A",
+        "track_number": 7
+      }, {
+        "title": "From Beethoven 9 =3EM27=",
+        "author": "Shiro Sagisu",
+        "type": "youtube",
+        "src": "LEgiG6Ieaqg",
+        "track_number": 15
+      }]
     }]
   }, {
-    "title": "Albumes para trabajar",
-    "description": "Los mejores albumes para concentrarse",
+    "title": "Albums au travail",
+    "description": "Les meilleurs albums à concentrer",
     "albums": [{
       "id": 1,
-      "description": "Album debut",
+      "description": "Premier album",
       "title": "Pies descalsos",
       "cover": "cover-shakira1.jpg",
       "year": 1996,
       "tracks": [{
         "title": "Te necesito",
-        "author": "shakira",
+        "author": "Shakira",
         "type": "youtube",
         "src": "AjS3F6OWXts",
         "track_number": 5
       }, {
         "title": "Pienso en ti",
-        "author": "shakira",
+        "author": "Shakira",
         "type": "youtube",
         "src": "WPWeLPrzdKA",
         "track_number": 9
+      }]
+    }, {
+      "id": 1,
+      "description": "Collection de city pop",
+      "title": "Nightfall Radio",
+      "cover": "cover-citypop.png",
+      "year": 1986,
+      "tracks": [{
+        "title": "黄昏のBay City",
+        "author": "八神 純子 (Junko Yagami)",
+        "type": "youtube",
+        "src": "aQGvlemqUpE",
+        "track_number": 3
+      }, {
+        "title": "Magic Ways",
+        "author": "山下 達郎 (Tatsurō Yamashita)",
+        "type": "youtube",
+        "src": "fekWiU3K_e0",
+        "track_number": 4
+      }]
+    }]
+  }, {
+    "title": "Albums endormis",
+    "description": "les meilleures chansons pour dormir",
+    "albums": [{
+      "id": 1,
+      "description": "Album de collection extra",
+      "title": "「声の形」Inner silence",
+      "cover": "cover-inner.jpg",
+      "year": 2017,
+      "tracks": [{
+        "title": "IV",
+        "author": "牛尾憲輔 (Kensuke Ushio)",
+        "type": "youtube",
+        "src": "k0kkfs-Lu7Q",
+        "track_number": 4
       }]
     }]
   }]
