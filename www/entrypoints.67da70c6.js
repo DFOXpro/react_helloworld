@@ -11097,6 +11097,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   }();
 
+  var fixFuckingChromeCSSBugs = function fixFuckingChromeCSSBugs() {
+    // WHY HERE AND NO IN CSS?: Because the intent design works flawlessly in all browsers but Chrome
+    // and since css has no pure selector to X browsers this implementation is the more consistent
+    console.log('fixFuckingChromeCSSImgBug'); // the next code thanks to a long standing chrome bug, do you know how much I hate Google???
+    // https://bugs.chromium.org/p/chromium/issues/detail?id=503000
+    // and yeah I try to fix in css but there is no up2date stackoverflow or any other useful solution
+
+    if (navigator.appVersion.indexOf("Chrome/") != -1) {
+      var sheet = window.document.styleSheets[0];
+      sheet.insertRule( // max-width ($ZM_PLAYER_HEIGHT/10)*8
+      "#react_hook_player[status='MINIMIZE'] ._player_widget_img{max-width:3.2rem;}", sheet.cssRules.length); // chrome bug (again) under certain circustance the width get broken
+
+      sheet.insertRule( // min-width $ZM_PLAYER_HEIGHT
+      "._player_widget_controls{min-width: 4rem;}", sheet.cssRules.length);
+    }
+  };
+
   var main =
   /*#__PURE__*/
   function () {
@@ -11114,8 +11131,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 2:
               playlistsData = _context2.sent;
               (0, _index_controller.initMVC)('react_hook_main', playlistsData);
+              fixFuckingChromeCSSBugs();
 
-            case 4:
+            case 5:
             case "end":
               return _context2.stop();
           }
@@ -11155,4 +11173,4 @@ module.exports = function loadJSBundle(bundle) {
 },{}],0:[function(require,module,exports) {
 var b=require("PgGh");b.register("js",require("Awvu"));
 },{}]},{},[0,"Focm"], "_debug_")
-//# sourceMappingURL=/entrypoints.1be1f203.map
+//# sourceMappingURL=/entrypoints.4305e377.map

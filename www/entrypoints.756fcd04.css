@@ -19,12 +19,13 @@
   background-color: #dbe3e2;
   display: flex;
   width: 100%;
+  z-index: 2;
 }
 ._player_widget_img {
   margin-top: 0.4rem;
   margin-left: 0.4rem;
-  width: auto;
   height: calc(100% - 0.8rem);
+  width: auto;
 }
 ._player_widget_flex_container {
   display: flex;
