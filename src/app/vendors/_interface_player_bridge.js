@@ -1,0 +1,8 @@
+export class _InterfacePlayerBridge {
+	static STATUS_SET = Symbol('GENERIC_STATUS_SET');
+	static STATUS_STOP = Symbol('GENERIC_STATUS_STOP');
+	static STATUS_ENDED = Symbol('GENERIC_STATUS_ENDED');
+	static STATUS_PAUSED = Symbol('GENERIC_STATUS_PAUSED');
+	static STATUS_PLAYING = Symbol('GENERIC_STATUS_PLAYING');
+	static STATUS_BUFFERING = Symbol('GENERIC_STATUS_BUFFERING');
+}
