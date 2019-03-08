@@ -43,7 +43,6 @@ let __play = async (media) => {
 		__setCurrentVendorPlayerStatusHandler(_InterfacePlayerBridge.STATUS_BUFFERING)
 	}
 
-
 export class PlayerWidget {
 	static STATUS_OPEN = Symbol('OPEN');
 	static STATUS_MINIMIZE = Symbol('MINIMIZE');

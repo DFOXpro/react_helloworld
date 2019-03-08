@@ -1,10 +1,10 @@
-import React from "react";
+import React from "react"
 
-import {PlayButtonEl} from './play_button_element.jsx';
-import '../style/album.styl';
+import {PlayButtonEl} from '../atoms/play_button.jsx'
+import '../../style/album.styl'
 
 const AlbumEl = props => {
-	// console.log('AlbumEl', props);
+	// console.log('AlbumEl', props)
 	return pug`
 		._album(
 			data-status= props.status

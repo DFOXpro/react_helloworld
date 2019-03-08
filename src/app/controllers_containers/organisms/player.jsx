@@ -1,9 +1,9 @@
 import React, {PureComponent} from 'react'
 import {createPortal} from 'react-dom'
-import {ZU_constructorHelper} from '../utils.js'
+	import {ZU_constructorHelper} from '../../utils.js'
 
-import {PlayerWidget} from '../models/player_widget.js'
-import {PlayerWidgetEl} from '../views_components/player_widget_element.jsx'
+import {PlayerWidget} from '../../models/player_widget.js'
+import {PlayerWidgetEl} from '../../views_components/organisms/player.jsx'
 
 // DAEMONIC PRIVATE STATICs ... do you know much I hate JS????
 let __DOM_ELEMENT_CONTAINER_ID = 'react_hook_player'

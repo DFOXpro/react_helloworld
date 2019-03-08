@@ -1,9 +1,9 @@
-import React, {PureComponent} from 'react';
+import React, {PureComponent} from 'react'
 
-import {PlayButtonEl} from './play_button_element.jsx';
-import '../style/media.styl';
+import {PlayButtonEl} from './play_button.jsx'
+import '../style/media.styl'
 
-const MediaEl = props => {
+const MediaAdderEl = props => {
 	return (pug`
 		._media
 			p._media_title
@@ -12,7 +12,7 @@ const MediaEl = props => {
 				if props.track_number
 					span
 						= props.track_number
-						|  -  
+						|  -
 				b= props.title
 				span
 					|  (
@@ -21,4 +21,4 @@ const MediaEl = props => {
 	`)
 }
 
-export {MediaEl}
+export {MediaAdderEl}

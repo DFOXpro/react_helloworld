@@ -1,21 +1,21 @@
-import React, {PureComponent} from 'react';
-import {ZU_constructorHelper} from '../utils.js'
+import React, {PureComponent} from 'react'
+	import {ZU_constructorHelper} from '../../utils.js'
 
-import {Playlist} from '../models/playlist.js';
-import {PlaylistEl} from '../views_components/playlist_element.jsx';
-import {AlbumController} from './album_controller.jsx';
+import {Playlist} from '../../models/playlist.js'
+import {PlaylistEl} from '../../views_components/molecules/playlist.jsx'
+import {AlbumController} from './album.jsx'
 
 export class PlaylistController extends PureComponent {
-	static propTypes = Playlist.PROPTYPES;
+	static propTypes = Playlist.PROPTYPES
 
 	constructor (props) {
-		// console.log('Albums init', props);
-		super(props);
+		// console.log('Albums init', props)
+		super(props)
 		ZU_constructorHelper(
 			this.state,
 			props,
 			Playlist.ATTRIBUTE_LIST
-		);
+		)
 	}
 
 	state = {
@@ -25,7 +25,7 @@ export class PlaylistController extends PureComponent {
 	}
 
 	$_handlePlayClick = (event) => {
-		// console.log('$_handlePlayClick');
+		// console.log('$_handlePlayClick')
 		new Playlist(this.state).play()
 	}
 

@@ -1,11 +1,11 @@
 import React from "react"
 
-import MAIN_LOGO_SVG from '../../assets/images/main_logo.svg'
-import {SearchResultsEl} from './search_result_element.jsx'
-import '../style/layer.styl'
+import MAIN_LOGO_SVG from '../../../assets/images/main_logo.svg'
+import {SearchResultsEl} from '../atoms/search_result.jsx'
+import '../../style/layer.styl'
 
 const IndexLy = props => {
-	// console.log('IndexLy', props);
+	// console.log('IndexLy', props)
 	return pug`
 		header
 		._side_menu
@@ -21,7 +21,7 @@ const IndexLy = props => {
 			if props.$_searchInputValue
 				._side_menu_search_results
 					h3._side_menu_search_results_title
-						| Résultats pour&#32;
+						| Résultats pour&#32
 						span= props.$_searchInputValue
 						| :
 					._side_menu_search_results_list

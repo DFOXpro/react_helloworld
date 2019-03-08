@@ -6,7 +6,7 @@
  */
 
 import 'babel-polyfill' // for dynamic import
-import {initMVC} from '../controllers_containers/index_controller.jsx'
+import {initMVC} from '../controllers_containers/pages/index.jsx'
 import {_SearchController} from '../controllers_containers/_search_controller.js'
 import {Album} from '../models/album.js'
 import {Media} from '../models/media.js'
@@ -89,9 +89,7 @@ import {Playlist} from '../models/playlist.js'
 	}
 
 	/*
-	 * Start the platform
-	 * with the react engine
-	 * and some Gchrome bugfixes
+	 * Start the platform with the react engine
 	 * @memberOf ZorroMusique
 	 */
 	let main = async () => {

@@ -1,11 +1,11 @@
-import React from "react";
+import React from "react"
 
-import {PlayButtonEl} from './play_button_element.jsx';
-import '../style/player_widget.styl';
-import loading_img from '../../assets/images/loading.png';
+import {PlayButtonEl} from '../atoms/play_button.jsx'
+import '../../style/player_widget.styl'
+import loading_img from '../../../assets/images/loading.png'
 
 const PlayerWidgetEl = props => {
-	// console.log('PlayerWidgetEl', props);
+	// console.log('PlayerWidgetEl', props)
 	return pug`
 		._player_widget(
 			data-status= props.status.description

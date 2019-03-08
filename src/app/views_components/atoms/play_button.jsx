@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, {PureComponent} from 'react'
 const PlayButtonEl = props => {
 	return (pug`
 		button._play_button(
