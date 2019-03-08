@@ -35,3 +35,9 @@ Cosas extras al curso:
 
 Las carpetas `dist` y `www` tienen respectivamente los archivos generados para producción y desarrollo, estos archivos no se editaron manualmente.
 
+## Qué instalar
+
+```
+sudo npm i -g parcel-bundler jsdoc
+npm i
+```
