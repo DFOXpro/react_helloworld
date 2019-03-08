@@ -1,6 +1,6 @@
-import React, {PureComponent} from 'react';
+import React, {PureComponent} from 'react'
 
-import {PlayButtonEl} from './play_button_element.jsx';
+import {PlayButtonEl} from './play_button.jsx'
 
 const SearchResultsEl = props => {
 	return (pug`

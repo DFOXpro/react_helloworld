@@ -1,4 +1,17 @@
-// Z_Utils = Zorro_utils
+/**
+* ZU = Zorro_utils: A functions toolset
+* @module utils
+* @see module:controllers/media_controller
+*/
+
+/**
+* Set as attributes of an target objet a whitelisted params
+* usefull to make quick constructors
+*
+* @param {object} dest - The object that will get the params.
+* @param {object} origin - the params to be set.
+* @param {array<objectKeys>} attributes - the params whitelist.
+*/
 function ZU_constructorHelper (dest, origin, attributes){
 	// console.log('ZU_constructorHelper', dest, origin, attributes);
 	if(origin) {
@@ -8,4 +21,9 @@ function ZU_constructorHelper (dest, origin, attributes){
 	}
 };
 
-export {ZU_constructorHelper};
+export {
+	/**
+	* @see ZU_constructorHelper
+	*/
+	ZU_constructorHelper
+};

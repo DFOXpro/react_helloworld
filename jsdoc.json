@@ -1,0 +1,12 @@
+{
+	"plugins": ["plugins/markdown"],
+	"sourceType": "module",
+	"source": {
+		"include": [ "./src/app" ],
+		"includePattern": ".+\\.js(doc|x)?$"
+	},
+	"opts": {
+		"destination": "./www/jsdoc",
+		"recurse": true
+	}
+}

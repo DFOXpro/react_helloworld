@@ -1,23 +1,23 @@
-import React, {PureComponent} from 'react';
-import {ZU_constructorHelper} from '../utils.js'
+import React, {PureComponent} from 'react'
+	import {ZU_constructorHelper} from '../../utils.js'
 
-import {Media} from '../models/media.js';
-import {MediaEl} from '../views_components/media_element.jsx';
+import {Media} from '../../models/media.js'
+import {MediaEl} from '../../views_components/molecules/media.jsx'
 
 export class MediaController extends PureComponent {
 	parent_album = {}
 	static propTypes = Media.PROPTYPES
 	constructor (props) {
-		super(props);
+		super(props)
 		ZU_constructorHelper(
 			this.state,
 			props,
 			Media.ATTRIBUTE_LIST
-		);
+		)
 	}
 
 	$_handlePlayClick = (event) => {
-		// console.log('$_handlePlayClick');
+		// console.log('$_handlePlayClick')
 		new Media(this.state).play()
 	}
 
@@ -31,7 +31,7 @@ export class MediaController extends PureComponent {
 	}
 
 	render() {
-		// console.log('MediaController.render', this.state);
+		// console.log('MediaController.render', this.state)
 		return (pug`
 			MediaEl(
 				...this.state

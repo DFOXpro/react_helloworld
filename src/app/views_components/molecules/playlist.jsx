@@ -1,7 +1,7 @@
-import React from "react";
+import React from "react"
 
-import {PlayButtonEl} from './play_button_element.jsx';
-import '../style/playlist.styl';
+import {PlayButtonEl} from '../atoms/play_button.jsx'
+import '../../style/playlist.styl'
 
 const PlaylistEl = props => (
 	pug`

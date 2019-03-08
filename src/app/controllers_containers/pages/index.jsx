@@ -1,29 +1,40 @@
-import React, {PureComponent} from 'react';
+/**
+* Index Page Controller
+* @module controllers/pages/index
+*/
+
+
+import React, {PureComponent} from 'react'
 import ReactDOM from 'react-dom'
-import {ZU_constructorHelper} from '../utils.js'
+import {ZU_constructorHelper} from '../../utils.js'
 
-// import {Index} from '../models/playlist.js';
-import {PlayerWidgetController} from './player_widget_controller.jsx'
-import {PlaylistController} from './playlist_controller.jsx'
-import {_SearchController} from './_search_controller.js'
-import {IndexLy} from '../views_components/index_layout.jsx'
+// import {Index} from '../../models/playlist.js'
+import {PlayerWidgetController} from '../organisms/player.jsx'
+// import {PlayerWidgetController} from '../organisms/searcher.jsx'
+import {PlaylistController} from '../molecules/playlist.jsx'
+import {_SearchController} from '../_search_controller.js'
+import {IndexLy} from '../../views_components/layouts/index.jsx'
 
-let __singleton_data = null;
+let __singleton_data = null
+
+/**
+ * React component of Index
+ */
 class IndexController extends PureComponent {
-	// static propTypes = Index.PROPTYPES;
+	// static propTypes = Index.PROPTYPES
 	$_SEARCH_INPUT_PLACEHOLDER = 'Rechercher une chanson'
 	$_searchInputEl = null // see $_searchInputRef
 
 
 	constructor (props) {
-		// console.log('IndexController init', props);
-		super(props);
+		// console.log('IndexController init', props)
+		super(props)
 		__singleton_data = props.data
 		// ZU_constructorHelper(
 		// 	this.state,
 		// 	props,
 		// 	Index.ATTRIBUTE_LIST
-		// );
+		// )
 	}
 
 	$_searchInputRef = (element) => {
@@ -59,6 +70,7 @@ class IndexController extends PureComponent {
 				...this.state
 				...this.$_DOMhandlers
 			)
+				//- MediaAdderController()
 				each playlist, playlist_index in __singleton_data.playlists
 					PlaylistController(
 						...playlist
@@ -69,16 +81,22 @@ class IndexController extends PureComponent {
 	}
 }
 
+/**
+ * Start the react engine
+ * @param {String<DOMElementId>} reactHockElement DOM element where react will render
+ * @param {object} data args to index page
+ */
 let initMVC = function (reactHockElement, data) {
 	const render = (reactElement, hook_element) => {
 		ReactDOM.render(
 			reactElement,
 			document.getElementById(reactHockElement)
-		);
+		)
 	}
 	render(pug`
 		IndexController(data= data)
 	`)
 }
+
 
 export {initMVC, IndexController}
