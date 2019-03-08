@@ -1,3 +1,10 @@
+/**
+ * @file This is the main JS file, it contains the main()
+ * @author (DFOXpro) Daniel Zorro <dfoxpro+react@gmail.com>
+ * @version 1.1.0
+ * @namespace ZorroMusique
+ */
+
 import 'babel-polyfill' // for dynamic import
 import {initMVC} from '../controllers_containers/index_controller.jsx'
 import {_SearchController} from '../controllers_containers/_search_controller.js'
@@ -5,6 +12,11 @@ import {Album} from '../models/album.js'
 import {Media} from '../models/media.js'
 import {Playlist} from '../models/playlist.js'
 
+/**
+ * @name Main
+ * @function
+ * @memberOf ZorroMusique
+ */
 (()=>{
 	let _getPlaylistData = async () => {
 		// Load the data values
@@ -76,6 +88,12 @@ import {Playlist} from '../models/playlist.js'
 		}
 	}
 
+	/*
+	 * Start the platform
+	 * with the react engine
+	 * and some Gchrome bugfixes
+	 * @memberOf ZorroMusique
+	 */
 	let main = async () => {
 		// Init the react MVC
 		const playlistsData = await _getPlaylistData()
