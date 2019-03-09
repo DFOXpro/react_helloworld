@@ -1,22 +1,42 @@
-let __singleton_search_dictionary = null;
-let __private_static_setSearchDictionary = () => __singleton_search_dictionary = {
-	total_items: 0,
-	flatArray: [],
-	pointers: {}
-}
+/**
+ * The ZMSE memory
+ * @memberOf ZM_SearchEngine
+ * @singleton
+ * @static
+ * @private
+ */
+let __singleton_search_dictionary = null
 
-class ZM_SearchEngine {
+/**
+ * @classdesc ZorroMusique search engine (ZMSE): A singleton search engine.
+ * @class ZM_SearchEngine
+ * @hideconstructor
+ */
+export class ZM_SearchEngine {
 
-	static resetSearchData = () => __private_static_setSearchDictionary()
+	/**
+	 * Clear the ZMSE memory
+	 */
+	static resetSearchData = () => __singleton_search_dictionary = {
+		total_items: 0,
+		flatArray: [],
+		pointers: {}
+	}
 
-	static addSearchData = (serchableList, attribute_list=[]) =>{
-		// console.log('addSearchData', serchableList, attribute_list);
-		serchableList.forEach((entity, entity_index) => {
-			// console.log(entity);
+	/**
+	 * Populate the ZMSE memory
+	 * @static
+	 * @param {array<object>} searchableList - a list of object to be digested by the ZMSE
+	 * @param {array<objectKey|string>} attribute_list - a whitelist of object keys  for the ZMSE
+	 */
+	static addSearchData = (searchableList, attribute_list=[]) =>{
+		// console.log('addSearchData', searchableList, attribute_list)
+		searchableList.forEach((entity, entity_index) => {
+			// console.log(entity)
 			attribute_list.forEach(
 				attribute => {
 					let newKey = ("" + entity[attribute]).toLowerCase()
-					// console.log(attribute, newKey);
+					// console.log(attribute, newKey)
 					if(!__singleton_search_dictionary.flatArray.includes(newKey)) {
 						// console.log('add key for', newKey)
 						__singleton_search_dictionary.pointers[newKey] = []
@@ -31,29 +51,28 @@ class ZM_SearchEngine {
 		})
 	}
 
+	/**
+	 * Search any related object
+	 * @static
+	 * @param {string} searchValue - a value to be compared via includes in all
+	 * whitelisted attributes of the objects in SE memory
+	 * @return {array<object>} found objects related to searchValue
+	 */
 	static find = (searchValue) => {
 		searchValue = searchValue.toLowerCase()
 		let founds = []
-		let foundsIds = []
+		let _foundsIds = []
 		__singleton_search_dictionary.flatArray.forEach(key => {
 			if(key.includes(searchValue)){
 				__singleton_search_dictionary.pointers[key].forEach(entity => {
-					if(!foundsIds.includes(entity.__ZM_searchId)){
+					if(!_foundsIds.includes(entity.__ZM_searchId)){
 						founds.push(entity)
-						foundsIds.push(entity.__ZM_searchId)
+						_foundsIds.push(entity.__ZM_searchId)
 					}
 				})
 				// founds = [...founds, ...__singleton_search_dictionary.pointers[key]]
-				
 			}
 		})
 		return founds
 	}
 }
-
-console.info(
-	'disable info for production',
-	window._debug_ZM_SearchEngine__singleton_search_dictionary = () => __singleton_search_dictionary
-)
-
-export {ZM_SearchEngine}
