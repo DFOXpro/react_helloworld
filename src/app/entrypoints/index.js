@@ -7,7 +7,7 @@
 
 import 'babel-polyfill' // for dynamic import
 import {initMVC} from '../controllers_containers/pages/index.jsx'
-import {_SearchController} from '../controllers_containers/_search_controller.js'
+import {SearcherWidget} from '../models/searcher_widget.js'
 import {Album} from '../models/album.js'
 import {Media} from '../models/media.js'
 import {Playlist} from '../models/playlist.js'
@@ -27,7 +27,7 @@ import {Playlist} from '../models/playlist.js'
 		}
 
 		// let dataDigestStart = performance.now()
-		_SearchController.resetSearchData()
+		SearcherWidget.resetSearchData()
 
 		apiIndexData.playlists.forEach(playlist => {
 			let _albums = []
@@ -41,20 +41,20 @@ import {Playlist} from '../models/playlist.js'
 				})
 				_albums.push(_album)
 
-				_SearchController.addSearchData(
+				SearcherWidget.addSearchData(
 					_album.tracks,
 					Media.SEARCHABLE_ATTRIBUTE_LIST
 				)
 			})
 			digestedData.playlists.push(_playlist)
 
-			_SearchController.addSearchData(
+			SearcherWidget.addSearchData(
 				_playlist.albums,
 				Album.SEARCHABLE_ATTRIBUTE_LIST
 			)
 
 		})
-		_SearchController.addSearchData(
+		SearcherWidget.addSearchData(
 			digestedData.playlists,
 			Playlist.SEARCHABLE_ATTRIBUTE_LIST
 		)
