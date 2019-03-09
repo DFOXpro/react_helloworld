@@ -10,21 +10,17 @@ import {ZU_constructorHelper} from '../../utils.js'
 
 // import {Index} from '../../models/playlist.js'
 import {PlayerWidgetController} from '../organisms/player.jsx'
-// import {PlayerWidgetController} from '../organisms/searcher.jsx'
+import {SearcherWidgetController} from '../organisms/searcher.jsx'
 import {PlaylistController} from '../molecules/playlist.jsx'
-import {_SearchController} from '../_search_controller.js'
 import {IndexLy} from '../../views_components/layouts/index.jsx'
 
 let __singleton_data = null
 
 /**
- * React component of Index
+ * React container(controller) of IndexLayout
  */
 class IndexController extends PureComponent {
 	// static propTypes = Index.PROPTYPES
-	$_SEARCH_INPUT_PLACEHOLDER = 'Rechercher une chanson'
-	$_searchInputEl = null // see $_searchInputRef
-
 
 	constructor (props) {
 		// console.log('IndexController init', props)
@@ -37,30 +33,7 @@ class IndexController extends PureComponent {
 		// )
 	}
 
-	$_searchInputRef = (element) => {
-		this.$_searchInputEl = element
-	}
-
-	$_handleSearchInputChange = (event) => {
-		this.setState({$_searchInputValue: this.$_searchInputEl.value})
-		this.setState({searchResults: _SearchController.find(
-			this.$_searchInputEl.value
-		)})
-		// console.log(
-		// 	'$_handleSearchInputChange',
-		// 	// event,
-		// 	this.state.$_searchInputValue
-		// )
-	}
-
-	state = {
-		$_searchInputValue: '',
-		searchResults: []
-	}
 	$_DOMhandlers = {
-		$_searchInputRef: this.$_searchInputRef,
-		$_searchInputPlaceholder: this.$_SEARCH_INPUT_PLACEHOLDER,
-		$_handleSearchInputChange: this.$_handleSearchInputChange,
 		$_handlePlayerShowClick: PlayerWidgetController.show
 	}
 
@@ -70,12 +43,13 @@ class IndexController extends PureComponent {
 				...this.state
 				...this.$_DOMhandlers
 			)
-				//- MediaAdderController()
-				each playlist, playlist_index in __singleton_data.playlists
-					PlaylistController(
-						...playlist
-						key= playlist_index
-					)
+				SearcherWidgetController
+				div
+					each playlist, playlist_index in __singleton_data.playlists
+						PlaylistController(
+							...playlist
+							key= playlist_index
+						)
 			PlayerWidgetController
 		`)
 	}
