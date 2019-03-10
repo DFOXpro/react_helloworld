@@ -15,6 +15,7 @@ const IndexLy = props => {
 			= props.children[0]
 			button.side_menu_show_player(onClick= props.$_handlePlayerShowClick) Show player
 		.main_content
+			HeaderEl()
 			= props.children[1]
 		footer
 	`

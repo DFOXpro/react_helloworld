@@ -1,0 +1,26 @@
+@require '_variables'
+header
+	display flex
+	flex-direction row
+	align-items stretch
+	height $ZM_HEADER_HEIGHT
+	.nav
+		$NORMAL_PADDING = $ZM_MAIN_PADDING/2
+		// display inline-block
+		padding $NORMAL_PADDING
+		flex auto
+		text-align center
+		color $ZM_BLACK
+		&:first-child
+			padding-left $ZM_MAIN_PADDING
+			text-align left
+		&:last-child
+			padding-right $ZM_MAIN_PADDING
+			text-align right
+		&:hover
+			$BORDER_HOVER = 2px
+			border-top solid $BORDER_HOVER $ZM_BLACK
+			padding-top "calc(%s - %s)" % ($NORMAL_PADDING $BORDER_HOVER)
+		&.is_active
+			background-color $ZM_BLACK
+			color $ZM_WHITE
