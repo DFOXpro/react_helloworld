@@ -6,15 +6,14 @@
 
 import React, {PureComponent, Fragment} from 'react'
 import ReactDOM from 'react-dom'
-import {BrowserRouter, HashRouter, Route, Switch} from 'react-router-dom'
-import {ZU_constructorHelper} from '../../utils.js'
+import {HashRouter} from 'react-router-dom'
+// import {BrowserRouter} from 'react-router-dom'
+// import {ZU_constructorHelper} from '../../utils.js'
 
 import {PlayerWidgetController} from '../organisms/player.jsx'
 import {SearcherWidgetController} from '../organisms/searcher.jsx'
-import {PlaylistsPageController} from '../pages/playlists.jsx'
 import {IndexLy} from '../../views_components/layouts/index.jsx'
-
-let __singleton_data = null
+import {routes} from '../../routes/index.jsx'
 
 /**
  * React container(controller) of IndexLayout
@@ -25,7 +24,7 @@ class IndexController extends PureComponent {
 	constructor (props) {
 		// console.log('IndexController init', props)
 		super(props)
-		__singleton_data = props.data
+		this.state.data = props.data
 		// ZU_constructorHelper(
 		// 	this.state,
 		// 	props,
@@ -37,51 +36,22 @@ class IndexController extends PureComponent {
 		$_handlePlayerShowClick: PlayerWidgetController.show
 	}
 
-	routes = ()=> {
-		console.log('routes');
-		return pug`
-			Switch
-				Route(
-					exact
-					stric
-					sensitive
-					path= "/"
-				)
-					PlaylistsPageController(
-						playlists= __singleton_data.playlists
-					)
-				Route(
-					exact
-					stric= undefined
-					sensitive= undefined
-					path= "/add_media"
-				)
-					h1 ADD MEDIA
-						| @TODO
-				Route(
-					exact
-					stric= undefined
-					sensitive= undefined
-					path= "/about"
-				)
-					h1 ABOUT
-						| @TODO
-		`
+	state = {
+		// data: playlists data
 	}
 
 	render() {
 		return (pug`
 			//- BrowserRouter(
-			//-
+			//- 	basename= "react_helloworld"
 			//- )
-			//- basename= "react_helloworld"
 			HashRouter()
 				IndexLy(
 					...this.state
 					...this.$_DOMhandlers
 				)
 					SearcherWidgetController
-					= this.routes()
+					= routes(this.state.data)
 
 			PlayerWidgetController
 		`)
@@ -104,6 +74,5 @@ const initMVC = function (reactHockElement, data) {
 		IndexController(data= data)
 	`)
 }
-
 
 export {initMVC, IndexController}

@@ -31,6 +31,17 @@ Designers just follow the raw guideline. For developers:
 @TODO
 
 ## VOCABULARY LIST
+### Extra to MVC
+* **Entrypoint**:
+	* A (JS/HTML/CSS)file that will be requested via browser page request
+	* Taken from module bundlers thesaurus
+* **Routes**:
+	* A list of URIs/URLs to be used within the client SPA router or any server XHR
+* **Vendors**:
+	* A set bridge/proxy code for 3party systems (I.E.): youtube, vimeo, dailyMotion
+	* A set of code outside the business logic (I.E.): a search engine
+
+The next terms are based(with some variation) from atomic design thesaurus
 * **Atom**:
 	* A repeatable DOM element with no complex element within (I.E.): a button its style and the logic behind it
 	* A react component without container controller
@@ -51,10 +62,7 @@ Designers just follow the raw guideline. For developers:
 	* A non-repeatable DOM element with pages or organisms
 	* To be directly rendered in the reactDOMHook
 
-
-* **Entrypoint**: A (JS/HTML/CSS)file that will be requested via browser page request
-
-
+### Business logic entities
 * **Media**: A video or a song info
 * **Album**: A collection of medias
 * **Playlist**: A collection of albums
