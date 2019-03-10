@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import {ZU_constructorHelper} from '../utils.js'
 import {_InterfacePlayable} from './_interface_playable.js'
 
-export class Playlist {
+export class Playlist extends _InterfacePlayable {
 	static ATTRIBUTE_LIST = ['albums', 'title', 'description']
 	static SEARCHABLE_ATTRIBUTE_LIST = ['title', 'description']
 	static DEFAULT_ALBUMS = []
@@ -20,6 +20,7 @@ export class Playlist {
 	}
 
 	constructor (arg, albums) {
+		super()
 		this.__type = Playlist.name
 		ZU_constructorHelper(
 			this,
@@ -29,6 +30,9 @@ export class Playlist {
 		if(albums) this.albums = albums
 	}
 
+	/**
+	 * @override
+	 */
 	play = () => {
 		// console.log('play')
 		_InterfacePlayable.play(this.getMediaList())
