@@ -4,7 +4,7 @@ import {_InterfacePlayable} from './_interface_playable.js'
 
 import DEFAULT_MEDIA_IMG from '../../assets/images/no_cover.jpg'
 
-export class Album {
+export class Album extends _InterfacePlayable{
 	static ATTRIBUTE_LIST = ['title', 'description', 'cover', 'year', 'tracks', 'parent_playlist']
 	static SEARCHABLE_ATTRIBUTE_LIST = ['title', 'description', 'year']
 	static DEFAULT_TITLE = 'Album sin título'
@@ -25,19 +25,23 @@ export class Album {
 		parent_playlist: PropTypes.object.isRequired
 	}
 
-		constructor (arg, tracks, playlist) {
-			this.__type = Album.name
-			ZU_constructorHelper(
-				this,
-				arg,
-				Album.ATTRIBUTE_LIST
-			);
-			if(playlist) this.parent_playlist = playlist
-			if(tracks) this.tracks = tracks
-		}
+	constructor (arg, tracks, playlist) {
+		super()
+		this.__type = Album.name
+		ZU_constructorHelper(
+			this,
+			arg,
+			Album.ATTRIBUTE_LIST
+		);
+		if(playlist) this.parent_playlist = playlist
+		if(tracks) this.tracks = tracks
+	}
 
-		play = () => {
-			console.log('play', this);
-			_InterfacePlayable.play(this.tracks)
-		}
+	/**
+	 *  @override
+	 */
+	play = () => {
+		console.log('play', this);
+		_InterfacePlayable.play(this.tracks)
+	}
 }

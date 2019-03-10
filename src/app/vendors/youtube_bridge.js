@@ -8,8 +8,11 @@ let _singleton_youtube_player_hook = ""
 let _singleton_youtube_player_obj = null
 let _singleton_youtube_player_states_handlers = {}
 
-export class YoutubeBridge {
+export class YoutubeBridge extends _InterfacePlayerBridge{
 
+	/**
+	 * @override
+	 */
 	static init(youtube_player_hook) {
 		_singleton_youtube_player_hook = youtube_player_hook
 		if( !__isApiReady()){
@@ -18,6 +21,10 @@ export class YoutubeBridge {
 			document.getElementsByTagName('body')[0].insertAdjacentElement('beforeend', tag)
 		}
 	}
+
+	/**
+	 * @override
+	 */
 	static play(videoId) {
 		return new Promise(function(resolve, reject) {
 			function _asyncHandler(){
@@ -73,22 +80,40 @@ export class YoutubeBridge {
 		})
 	}
 
+	/**
+	 * @override
+	 */
 	static setStatusHandler(statusId, callback) {
 		// console.log('setVideoStatusHandler', statusId, callback);
 		_singleton_youtube_player_states_handlers[statusId.description] = callback
 	}
+
+	/**
+	 * @override
+	 */
 	static pause() {
 		_singleton_youtube_player_obj.pauseVideo()
 	}
+
+	/**
+	 * @override
+	 */
 	static resume() {
 		_singleton_youtube_player_obj.playVideo()
 	}
+
+	/**
+	 * @override
+	 */
 	static stop() {
 		console.log('YT.stop', _singleton_youtube_player_obj);
 		_singleton_youtube_player_obj && _singleton_youtube_player_obj.stopVideo()
 		_singleton_youtube_player_states_handlers = {}
 	}
 
+	/**
+	 * @override
+	 */
 	static kill() {
 		// console.log('YT.kill')
 		_singleton_youtube_player_obj = null

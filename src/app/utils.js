@@ -5,6 +5,13 @@
 */
 
 /**
+ * Intended to declare any (class)method to ve override from an instance
+ * @throws {<not implemented method>} The method was not override
+ */
+function ZU_IntanceMethodHelper (){
+	throw new Error('not implemented')
+}
+/**
 * Set as attributes of an target objet a whitelisted params
 * usefull to make quick constructors
 *
@@ -25,5 +32,10 @@ export {
 	/**
 	* @see ZU_constructorHelper
 	*/
-	ZU_constructorHelper
+	ZU_constructorHelper,
+
+	/**
+	* @see ZU_IntanceMethodHelper
+	*/
+	ZU_IntanceMethodHelper
 };
