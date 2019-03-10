@@ -4,8 +4,9 @@
 */
 
 
-import React, {PureComponent} from 'react'
+import React, {PureComponent, Fragment} from 'react'
 import ReactDOM from 'react-dom'
+import {BrowserRouter, HashRouter, Route, Switch} from 'react-router-dom'
 import {ZU_constructorHelper} from '../../utils.js'
 
 import {PlayerWidgetController} from '../organisms/player.jsx'
@@ -36,16 +37,52 @@ class IndexController extends PureComponent {
 		$_handlePlayerShowClick: PlayerWidgetController.show
 	}
 
+	routes = ()=> {
+		console.log('routes');
+		return pug`
+			Switch
+				Route(
+					exact
+					stric
+					sensitive
+					path= "/"
+				)
+					PlaylistsPageController(
+						playlists= __singleton_data.playlists
+					)
+				Route(
+					exact
+					stric= undefined
+					sensitive= undefined
+					path= "/add_media"
+				)
+					h1 ADD MEDIA
+						| @TODO
+				Route(
+					exact
+					stric= undefined
+					sensitive= undefined
+					path= "/about"
+				)
+					h1 ABOUT
+						| @TODO
+		`
+	}
+
 	render() {
 		return (pug`
-			IndexLy(
-				...this.state
-				...this.$_DOMhandlers
-			)
-				SearcherWidgetController
-				PlaylistsPageController(
-					playlists= __singleton_data.playlists
+			//- BrowserRouter(
+			//-
+			//- )
+			//- basename= "react_helloworld"
+			HashRouter()
+				IndexLy(
+					...this.state
+					...this.$_DOMhandlers
 				)
+					SearcherWidgetController
+					= this.routes()
+
 			PlayerWidgetController
 		`)
 	}
@@ -56,7 +93,7 @@ class IndexController extends PureComponent {
  * @param {String<DOMElementId>} reactHockElement DOM element where react will render
  * @param {object} data args to index page
  */
-let initMVC = function (reactHockElement, data) {
+const initMVC = function (reactHockElement, data) {
 	const render = (reactElement, hook_element) => {
 		ReactDOM.render(
 			reactElement,
