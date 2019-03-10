@@ -6,7 +6,7 @@
  */
 
 import 'babel-polyfill' // for dynamic import
-import {initMVC} from '../controllers_containers/pages/index.jsx'
+import {initMVC} from '../controllers_containers/layouts/index.jsx'
 import {SearcherWidget} from '../models/searcher_widget.js'
 import {Album} from '../models/album.js'
 import {Media} from '../models/media.js'

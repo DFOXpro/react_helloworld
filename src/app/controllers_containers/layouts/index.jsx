@@ -8,10 +8,9 @@ import React, {PureComponent} from 'react'
 import ReactDOM from 'react-dom'
 import {ZU_constructorHelper} from '../../utils.js'
 
-// import {Index} from '../../models/playlist.js'
 import {PlayerWidgetController} from '../organisms/player.jsx'
 import {SearcherWidgetController} from '../organisms/searcher.jsx'
-import {PlaylistController} from '../molecules/playlist.jsx'
+import {PlaylistsPageController} from '../pages/playlists.jsx'
 import {IndexLy} from '../../views_components/layouts/index.jsx'
 
 let __singleton_data = null
@@ -44,12 +43,9 @@ class IndexController extends PureComponent {
 				...this.$_DOMhandlers
 			)
 				SearcherWidgetController
-				div
-					each playlist, playlist_index in __singleton_data.playlists
-						PlaylistController(
-							...playlist
-							key= playlist_index
-						)
+				PlaylistsPageController(
+					playlists= __singleton_data.playlists
+				)
 			PlayerWidgetController
 		`)
 	}

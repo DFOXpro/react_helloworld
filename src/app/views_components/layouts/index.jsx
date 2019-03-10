@@ -6,7 +6,7 @@ import '../../style/layer.styl'
 const IndexLy = props => {
 	// console.log('IndexLy', props)
 	return pug`
-		header
+		//- header
 		._side_menu
 			img.main_logo(
 				src= MAIN_LOGO_SVG
