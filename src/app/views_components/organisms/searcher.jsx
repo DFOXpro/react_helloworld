@@ -2,9 +2,8 @@ import React from "react"
 
 import {PlayButtonEl} from '../atoms/play_button.jsx'
 import {SearchResultsEl} from '../atoms/search_result.jsx'
-// import '../style/searcher_widget.styl'
+import '../../style/searcher.styl'
 // import loading_img from '../../../assets/images/loading.png'
-
 
 /**
  * React component(view) of SearcherWidget

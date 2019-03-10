@@ -13,11 +13,11 @@
 	order 2
 	&[status="CLOSE"] + #react_hook_main
 		height 100%
-		& ._side_menu_show_player
+		& .side_menu_show_player
 			display inherit
 
-$ZM_SIDE_MENU_PADDING = 2em
-._side_menu
+$ZM_SIDE_MENU_PADDING = $ZM_MAIN_PADDING
+.side_menu
 	display flex
 	flex-direction column
 	align-self stretch
@@ -27,23 +27,30 @@ $ZM_SIDE_MENU_PADDING = 2em
 	background-color $ZM_BLACK
 	color $ZM_WHITE
 
-._side_menu_show_player
+.side_menu_show_player
 	display none
 	position absolute
 	bottom $ZM_SIDE_MENU_PADDING
 	left $ZM_SIDE_MENU_PADDING
 
-._side_menu_search_results
-	flex auto
-	overflow-y auto
-
 .main_content
 	display inline-block
-	padding 2em
 	align-self stretch
 	width "calc(100% - %s)" % $SIDE_MENU_WIDTH
-	overflow-y auto
+	section
+		width "calc(100% - (2 * %s))" % $ZM_MAIN_PADDING
+		height: "calc(100% - %s - (2 * %s))" % ($ZM_HEADER_HEIGHT $ZM_MAIN_PADDING)
+		overflow-y auto
+		padding 2em
 
 .main_logo
 	width 80%
 	height auto
+
+@media screen and (max-width: 910px)
+	.main_content:not(.menu_is_active)
+		width 100%
+	.side_menu:not(.menu_is_active)
+		width 0
+		padding 0
+
