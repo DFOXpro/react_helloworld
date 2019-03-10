@@ -30,9 +30,23 @@ export class Playlist {
 	}
 
 	play = () => {
+		// console.log('play')
+		_InterfacePlayable.play(this.getMediaList())
+	}
+
+	getMediaList = () => {
 		let mediaList = []
 		this.albums.forEach(album => mediaList = [...mediaList, ...album.tracks])
-		console.log('play', mediaList);
-		_InterfacePlayable.play(mediaList)
+		console.log('getMediaList', mediaList)
+		return mediaList
+	}
+
+	static playPlaylists = (playlists) => {
+		// console.log('playPlaylists', playlists)
+		let mediasToPlay = []
+		playlists.forEach(playlist =>
+			mediasToPlay = [...mediasToPlay, ...(new Playlist(playlist)).getMediaList()]
+		)
+		_InterfacePlayable.play(mediasToPlay)
 	}
 }
