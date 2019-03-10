@@ -34,18 +34,19 @@ Designers just follow the raw guideline. For developers:
 * **Atom**:
 	* A repeatable DOM element with no complex element within (I.E.): a button its style and the logic behind it
 	* A react component without container controller
-	* AKA: Element
 * **Molecule**:
 	* A repeatable DOM element with atoms within (I.E.): an Album and the logic behind
 	* A react component with a container controller
 	* AKA: (not react)Component
+	* note: Normally named in singular form if it's based in an entity
 * **Organism**:
 	* A non-repeatable DOM element with atoms or molecules within (I.E.): The player and the logic behind
 	* AKA: Widget
-	* note: Normally named end in *er like player or searcher
+	* note: Normally named end in *er like header, footer, player or searcher
 * **Page**:
 	* A view related to a route
 	* A non-repeatable DOM element with organism and molecules within
+	* note: Normally named in Plural form if it's based in an entity
 * **Layout**:
 	* A non-repeatable DOM element with pages or organisms
 	* To be directly rendered in the reactDOMHook
