@@ -43,18 +43,10 @@ let __play = async (media) => {
 		__setCurrentVendorPlayerStatusHandler(_InterfacePlayerBridge.STATUS_BUFFERING)
 	}
 
-export class PlayerWidget {
+export class PlayerWidget extends _InterfacePlayerBridge{
 	static STATUS_OPEN = Symbol('OPEN');
 	static STATUS_MINIMIZE = Symbol('MINIMIZE');
 	static STATUS_CLOSE = Symbol('CLOSE');
-
-	static STATUS_SET = _InterfacePlayerBridge.STATUS_SET
-	static STATUS_STOP = _InterfacePlayerBridge.STATUS_STOP
-	static STATUS_ENDED = _InterfacePlayerBridge.STATUS_ENDED
-	static STATUS_PAUSED = _InterfacePlayerBridge.STATUS_PAUSED
-	static STATUS_PLAYING = _InterfacePlayerBridge.STATUS_PLAYING
-	static STATUS_BUFFERING = _InterfacePlayerBridge.STATUS_BUFFERING
-
 	static ATTRIBUTE_LIST = ['status', 'media', 'playlist']
 	// static DEFAULT_STATUS = Symbol('MINIMIZE')
 
@@ -64,17 +56,42 @@ export class PlayerWidget {
 		status: PropTypes.symbol
 	};
 
-	static setStatus_handler = (statusSymbol, callback) => {
-		__status_handler[statusSymbol] = callback
-	}
-
+	/**
+	 * @override
+	 */
 	static play = async mediaList => {
 		console.log('PlayerWidget.play', mediaList)
 		await PlayerWidget.stop()
 		__currentMediaList = [...mediaList]
 		__play()
 	}
+	
+	/**
+	 * @override
+	 */
+	static setStatus_handler = (statusSymbol, callback) => {
+		__status_handler[statusSymbol] = callback
+	}
 
+	/**
+	 * @override
+	 */
+	static pause = () => {
+		let player = __getCurrentVendorPlayer()
+		if(player) player.pause()
+	}
+
+	/**
+	 * @override
+	 */
+	static resume = async () => {
+		let player = __getCurrentVendorPlayer()
+		if(player) player.resume()
+	}
+
+	/**
+	 * @override
+	 */
 	static stop = async () => {
 		console.log('PlayerWidget.stop', __currentMedia)
 		if(__currentMedia)
@@ -84,17 +101,12 @@ export class PlayerWidget {
 		await __status_handler[_InterfacePlayerBridge.STATUS_STOP]()
 	}
 
+	/**
+	 * @override
+	 */
 	static kill = () => {
 		let player = __getCurrentVendorPlayer()
 		// console.log('PlayerWidget.kill', player);
 		if(player) player.kill()
-	}
-	static pause = () => {
-		let player = __getCurrentVendorPlayer()
-		if(player) player.pause()
-	}
-	static resumeTrack = async () => {
-		let player = __getCurrentVendorPlayer()
-		if(player) player.resume()
 	}
 }

@@ -72,7 +72,7 @@ export class PlayerWidgetController extends PureComponent {
 		PlayerWidget.stop()
 	}
 
-	#resumeTrack = PlayerWidget.resumeTrack
+	#resumeTrack = PlayerWidget.resume
 	#pauseTrack = PlayerWidget.pause
 
 	// GOD BLESSED STATICs
